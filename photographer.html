@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Animation</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin-left: 300px;
+            margin-right: 200px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .gallery img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in;
+        }
+        .gallery img:hover {
+            transform: scale(1.5);
+        }
+
+    </style>
+ </head>
+
+<main >        
+    <h1>Photographer's Portfolio</h1>
+
+<body style="align-items: center;justify-content: center;">  
+
+    <div class="gallery">
+        <img src="https://th.bing.com/th/id/OIP.NbnP0pOAXrWzFcZlhzFb1gHaEK?rs=1&pid=ImgDetMain" alt="Photo 1">
+        <img src="https://th.bing.com/th/id/OIP.V_MjT2Xw8yfnuGhgxc69cQHaEK?rs=1&pid=ImgDetMain" alt="Photo 2">
+        <img src="https://img.freepik.com/premium-photo/canon-camera-with-purple-flower-foreground_627719-661.jpg" alt="Photo 3">
+        <img src="https://th.bing.com/th/id/R.76535dcfa4c67bde78493ee49e607eca?rik=mGZAjTAAeK6Hnw&pid=ImgRaw&r=0" alt="Photo 4">
+        <img src="https://th.bing.com/th/id/OIP.NbnP0pOAXrWzFcZlhzFb1gHaEK?rs=1&pid=ImgDetMain" alt="Photo 1">
+        <img src="https://th.bing.com/th/id/OIP.V_MjT2Xw8yfnuGhgxc69cQHaEK?rs=1&pid=ImgDetMain" alt="Photo 2">
+        <img src="https://img.freepik.com/premium-photo/canon-camera-with-purple-flower-foreground_627719-661.jpg" alt="Photo 3">
+        <img src="https://th.bing.com/th/id/R.76535dcfa4c67bde78493ee49e607eca?rik=mGZAjTAAeK6Hnw&pid=ImgRaw&r=0" alt="Photo 4">
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <input type ="button" id="Back" value="Back" style="background-color:#362b23 ; transform: scale(1.5); color: #fff;"><br>
+  
+</body>
+</main>
+</html>
+
+
