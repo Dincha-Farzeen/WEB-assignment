@@ -314,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
 
           <div class="information-container">
-            <form action="logincombined.php" method="post">
+            <form action="login.php" method="post">
               <label for="u_email"></label>
               <div>
                 <input

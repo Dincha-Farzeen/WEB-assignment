@@ -1,65 +1,53 @@
 body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .navigation-bar {
-    /*the navigation at the top*/
-    list-style-type: none;
-    margin-top: 8px;
-    padding: 0;
-    overflow: hidden;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  list-style-type: none;
+  margin-top: 8px;
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   }
   
-  li {
-    /*Customize the navigation*/
-    margin: 0 30px;
-  }
+li {
+  /*Customize the navigation*/
+  margin: 0 30px;
+}
   
-  li a {
-    /*Customize the navigation*/
-    display: block;
-    padding: 10px 30px;
-    border-radius: 40px;
-    background-color: transparent;
-    color: black;
-    text-decoration: none;
-    font-size: 18px;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  }
+li a {
+  /*Customize the navigation*/
+  display: block;
+  padding: 10px 30px;
+  border-radius: 40px;
+  background-color: transparent;
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
   
-  li a:hover {
-    /*customize the navigation when hovering*/
-    background-color: aliceblue;
-  }
+li a:hover {
+  /*customize the navigation when hovering*/
+  background-color: aliceblue;
+}
   
-  li a:active {
-    transform: scale(1.001);
-    background-color: rgb(215, 224, 231);
-  }
+li a:active {
+  transform: scale(1.001);
+  background-color: rgb(215, 224, 231);
+}
 
 .image{
-    height: 100vh;
-    width: auto;
-    background-color: black;
-}
-
-.heading {
-    position: relative;
-    z-index: 3; /* Ensure the heading appears above other elements */
-    text-align: center;
-    font-size: 24px;
-    margin-top: 20px;
-}
-
-.box{
-    background-color: aliceblue;
-    padding: 10px 20px 10px 20px;
-    border-radius: 7px;
+  height: 100vh;
+  width: auto;
+  background-image: url('../Html/contactus.jpg');
+  background-size:contain;
+  background-repeat: no-repeat;
+  margin-top: 10px;
+  background-position: right;
 }
