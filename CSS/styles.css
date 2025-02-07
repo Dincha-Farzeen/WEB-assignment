@@ -2,6 +2,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    overflow: hidden;
 }
 
 .navigation-bar {
@@ -42,3 +43,18 @@ body, html {
     transform: scale(1.001);
     background-color: rgb(215, 224, 231);
   }
+
+.image{
+    height: 100vh;
+    width: auto;
+    background-color: black;
+}
+
+.heading{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+}
+
+.box{
+    background-color: aliceblue;
+}
