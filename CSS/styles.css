@@ -50,11 +50,16 @@ body, html {
     background-color: black;
 }
 
-.heading{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 20px;
+.heading {
+    position: relative;
+    z-index: 3; /* Ensure the heading appears above other elements */
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
 }
 
 .box{
     background-color: aliceblue;
+    padding: 10px 20px 10px 20px;
+    border-radius: 7px;
 }
