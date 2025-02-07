@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <style>
+    html,
+    body {
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      margin: 0%;
+      padding: 0%;
+    }
+    .navigation-bar {
+      /*the navigation at the top*/
+      list-style-type: none;
+      margin-top: 8px;
+      padding: 0;
+      overflow: hidden;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    li {
+      /*Customize the navigation*/
+      margin: 0 30px;
+    }
+
+    li a {
+      /*Customize the navigation*/
+      display: block;
+      padding: 10px 30px;
+      border-radius: 40px;
+      background-color: transparent;
+      color: black;
+      text-decoration: none;
+      font-size: 18px;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    }
+
+    li a:hover {
+      /*customize the navigation when hovering*/
+      background-color: aliceblue;
+    }
+
+    li a:active {
+      transform: scale(1.001);
+      background-color: rgb(215, 224, 231);
+    }
+
+    .contact-button {
+      position: relative;
+      display: inline;
+      top: 90px;
+      left: 300px;
+      float: 25%;
+      transition: 0.5s ease-out;
+      padding: 10px 23px;
+      border-radius: 10px;
+      background-color: #c3c3e9;
+    }
+    .contact-button a {
+      text-decoration: none;
+      color: black;
+    }
+    .contact-button:hover {
+      background-color: #b6b6d8;
+      transform: scale(1.001);
+      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    }
+    footer {
+      background-color: #222;
+      color: white;
+      padding: 20px;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      max-width: auto;
+      max-height: fit-content;
+    }
+
+    .footer-reservedtext {
+      text-align: center;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      font-style: oblique;
+      padding-top: 50px;
+    }
+
+    .footer-links {
+      font-family: Georgia, "Times New Roman", Times, serif;
+    }
+  </style>
+  <body>
+    <nav class="navigation-bar">
+      <li><a href="homepage.html"> Home </a></li>
+      <li><a href="myAccount.php"> My Account </a></li>
+      <li><a href="#"> Booking </a></li>
+      <li><a href="review.php"> Reviews </a></li>
+      <li><a href="All Profiles.html"> Photographers' Profiles </a></li>
+    </nav>
+
+    <div
+      style="
+        display: inline-block;
+        width: 100%;
+        height: 400px;
+        position: relative;
+      "
+    >
+      <div
+        style="
+          position: relative;
+          display: inline-block;
+          top: 40px;
+          left: 150px;
+          letter-spacing: 6px;
+          font-size: 20px;
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        "
+      >
+        <h1>LEARN MORE ABOUT US</h1>
+      </div>
+
+      <div
+        style="
+          position: relative;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          top: 60px;
+          max-width: 450px;
+          font-style: italic;
+          left: 150px;
+          text-indent: 50px;
+        "
+      >
+        " Photography Collective is a newly establised business comprising a
+        team of photographers and helps people easily browse and choose
+        photographers best suited to their taste and event. Our prices are
+        affordable, and we focus on capturing each of your special moments so
+        you can revisit them endlessly. "
+      </div>
+
+      <div style="position: absolute; top: 40px; left: 670px">
+        <video
+          autoplay
+          muted
+          loop
+          style="
+            width: 400px;
+            height: 200px;
+            display: inline-block;
+            max-width: 100%;
+            height: auto;
+            width: 530px;
+            border-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <source
+            src="3249446-uhd_3840_2160_25fps.mp4"
+            type="video/mp4"
+            alt="Video by fauxels: https://www.pexels.com/video/a-person-checking-the-photo-shots-taken-using-a-digital-camera-3249446/"
+          />
+        </video>
+      </div>
+
+      <div class="contact-button">
+        <a href="contact.html">GET IN TOUCH</a>
+      </div>
+    </div>
+    <div style="width: 100%; height: auto">
+      <div style="display: flex; justify-content: space-around">
+        <div>
+          <h2 style="position: relative">
+            <b>OUR MISSION</b>
+          </h2>
+        </div>
+        <div>
+          <h2 style="position: relative">
+            <b>OUR VISION</b>
+          </h2>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-around">
+        <div
+          style="
+            text-align: center;
+            position: relative;
+            left: 7px;
+            width: 300px;
+            height: auto;
+          "
+        >
+          At Photography Collective, our mission is to capture the essence of
+          every moment with creativity and professionalism. We bring together a
+          team of passionate photographers dedicated to providing exceptional
+          service for all your events. Our goal is to create lasting memories
+          through our lens, ensuring you get to revisit your special moments.
+        </div>
+        <div
+          style="
+            background-color: rgb(230, 209, 183);
+            width: 2px;
+            height: 170px;
+            position: absolute;
+            border-radius: 10px;
+          "
+        ></div>
+        <div
+          style="
+            position: relative;
+            left: -2px;
+            text-align: center;
+            width: 300px;
+            height: auto;
+          "
+        >
+          Our vision is to become the leading photography service provider,
+          known for our innovation and commitment to excellence. We aim to build
+          a community where creativity thrives, and every event is immortalized
+          with stunning visuals. By continuously evolving and embracing new
+          technologies, we strive to set the standard in the photography
+          industry.
+        </div>
+      </div>
+    </div>
+    <br /><br />
+    <div
+      style="
+        background-color: ivory;
+        width: 100%;
+        height: 670px;
+        margin-top: 10px;
+      "
+    >
+      <div
+        style="
+          position: relative;
+          display: flex;
+          justify-content: center;
+          top: 10px;
+          font-size: 30px;
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+          letter-spacing: 2px;
+        "
+      >
+        OUR SERVICES
+      </div>
+      <div style="display: flex; justify-content: space-evenly">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p
+            style="
+              font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
+                sans-serif;
+              font-size: 20px;
+              position: relative;
+              top: 10px;
+              letter-spacing: 5px;
+            "
+          >
+            SOLO PHOTOGRAPHER
+          </p>
+          <video
+            autoplay
+            muted
+            loop
+            style="
+              display: inline-block;
+              position: relative;
+              max-width: 530px;
+              top: 10px;
+              height: 380px;
+              overflow: hidden;
+              border-radius: 5px;
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            "
+          >
+            <source
+              src="7205335-uhd_2160_3840_25fps.mp4"
+              type="video/mp4"
+              alt="Video by Tima Miroshnichenko: https://www.pexels.com/video/photographer-taking-a-picture-7205335/"
+            />
+          </video>
+
+          <p
+            style="
+              width: 350px;
+              height: auto;
+              position: relative;
+              top: 40px;
+              text-align: center;
+            "
+          >
+            Looking for a personal touch? Book one of our skilled photographers
+            to capture your special moments. Whether it's an event or a private
+            photoshoot, you'll have their full attention and expertise to ensure
+            every shot is perfect
+          </p>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p
+            style="
+              font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
+                sans-serif;
+              font-size: 20px;
+              position: relative;
+              top: 10px;
+              letter-spacing: 5px;
+            "
+          >
+            CUSTOM PHOTOGRAPHY TEAM
+          </p>
+          <video
+            autoplay
+            muted
+            loop
+            style="
+              display: inline-block;
+              position: relative;
+              max-width: 530px;
+              top: 10px;
+              height: 380px;
+              overflow: hidden;
+              border-radius: 5px;
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            "
+          >
+            <source
+              src="12322162_2160_3840_60fps.mp4"
+              type="video/mp4"
+              alt="Video by Pexels User: https://www.pexels.com/video/a-group-of-people-taking-pictures-with-cameras-28186504/"
+            />
+          </video>
+
+          <p
+            style="
+              width: 350px;
+              height: auto;
+              position: relative;
+              top: 40px;
+              text-align: center;
+            "
+          >
+            Need more coverage? Choose the number of photographers for your
+            event to ensure every angle is captured. Whether it's a large
+            gathering or multiple locations, we've got you covered with a
+            tailored team to meet your needs.
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div
+        style="
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-size: 20px;
+          letter-spacing: 1px;
+          margin-left: 40px;
+        "
+      >
+        <b>STAY CONNECTED TO US</b>
+      </div>
+      <div
+        class="social-icons"
+        style="text-align: center; margin-top: 10px; margin-left: -1170px"
+      >
+        <a
+          href="https://www.facebook.com"
+          target="_blank"
+          style="color: white; margin: 0 5px; font-size: 30px"
+        >
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
+
+      <div
+        class="social-icons"
+        style="text-align: center; margin-top: -34px; margin-left: -1070px"
+      >
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          style="color: white; margin: 0 5px; font-size: 33px"
+        >
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+
+      <div
+        class="social-icons"
+        style="text-align: center; margin-top: -36px; margin-left: -960px"
+      >
+        <a
+          href="https://www.youtube.com"
+          target="_blank"
+          style="color: white; margin: 0 5px; font-size: 32px"
+        >
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+
+      <div
+        class="footer-links"
+        style="
+          margin: -22px 0 0 970px;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-size: 19px;
+        "
+      >
+        <a href="contact.html" style="color: white; text-decoration: none"
+          >Contact Us</a
+        >
+      </div>
+
+      <div
+        class="footer-links"
+        style="
+          margin: -22px 0 0 1100px;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-size: 19px;
+        "
+      >
+        <a href="termsAndCond.html" style="color: white; text-decoration: none"
+          >Terms and Conditions</a
+        >
+      </div>
+
+      <div class="footer-reservedtext">
+        &copy; 2024 Photography Collective. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>
