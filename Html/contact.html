@@ -1,30 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Us</title>
-    <link rel="stylesheet" href="../CSS/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-  </head>
-  <body>
-    <nav class="navigation-bar">
-      <li><a href="homepage.html"> Home </a></li>
-      <li><a href="myAccount.php"> My Account </a></li>
-      <li><a href="#"> Booking </a></li>
-      <li><a href="#"> Reviews </a></li>
-      <li><a href="All Profiles.html"> Photographers' Profiles </a></li>
-    </nav>
-      <div class="image"
-            alt="Photo by Francesco Ungaro: https://www.pexels.com/photo/hot-air-balloon-2325447/"
-      ></div>
 
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="../CSS/contactus.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+
+<body>
+  <nav class="navigation-bar">
+    <li><a href="homepage.html"> Home </a></li>
+    <li><a href="myAccount.php"> My Account </a></li>
+    <li><a href="#"> Booking </a></li>
+    <li><a href="#"> Reviews </a></li>
+    <li><a href="All Profiles.html"> Photographers' Profiles </a></li>
+  </nav>
+  <div class="image" alt="Photo by Francesco Ungaro: https://www.pexels.com/photo/hot-air-balloon-2325447/">
+    <div style="font-size: 120px; display: inline-block; 
+                  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
+                  letter-spacing: 10px; margin: 20px 0 0 115px;">CONTACT US</div>
+    <div class="container">
+      <div class="box" style="width: 300px;"> <!--Contact us-->
+        <p style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+                      font-size: 25px;
+                      letter-spacing: 2px;
+              ">GET IN TOUCH
+        </p>
+        <div>
+          <p class="fas fa-phone"></p>
+          <p style="display: inline; margin-left: 10px;"> +230 57538596 / +230 59798862</p>
+        </div>
+        <div>
+          <p class="fas fa-at"></p>
+          <p style="display: inline; margin-left: 10px;"> photographycollective@gmail.com</p>
+        </div>
+      </div>
+      <div class="box" style="width: 300px">
+        <p style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',sans-serif;
+                    font-size: 25px;
+                    letter-spacing: 2px;
+                    padding-bottom: 10px;
+                    ">PITCH US
+        </p>
+        <div>Hello, <br /></div>
+        <div style="text-indent: 30px; display: inline">
+          My name is
+          <p style="
+              color: rgb(47, 165, 165);
+              display: inline;
+              font-style: italic;
+            ">
+            your name
+          </p>
+          and my email is
+          <p style="
+              color: rgb(47, 165, 165);
+              display: inline;
+              font-style: italic;
+            ">
+            your email
+          </p>
+          and I would like to discuss about
+          <p style="
+              color: rgb(47, 165, 165);
+              display: inline;
+              font-style: italic;
+            ">
+            your project description
+          </p>
+          .
+        </div>
+        <a href="mailto:photographycollective@gmail.com?subject=Photography Booking Inquiry&body=Hello,%0A%0A
+          My name is [your name] and my email is [your email].%0A%0AI would like to discuss about [your project description]. "
+          class="email-button">SEND</a>
+      </div>
+    </div>
+</body>
+
 </html>
