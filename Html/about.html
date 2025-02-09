@@ -80,28 +80,31 @@
       transform: scale(1.001);
       box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
     }
-    footer {
-      background-color: #222;
-      color: white;
-      padding: 20px;
-    }
-
-    .footer-container {
+    .footer{
+      width: 100%;
+      margin-top: 10px;
+      height: 130px;
+      background-color: black;
       display: flex;
-      justify-content: space-between;
-      max-width: auto;
-      max-height: fit-content;
+      flex-direction: row;
+      color: white;
+      align-items: center;
     }
 
-    .footer-reservedtext {
-      text-align: center;
-      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-      font-style: oblique;
-      padding-top: 50px;
+    .socials{
+      margin-top: 5px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding-left: 50px ;
+      gap: 2px;
     }
 
-    .footer-links {
-      font-family: Georgia, "Times New Roman", Times, serif;
+    .navigations{
+      padding-left: 50px ;
+      display: flex;
+      flex-direction: column;
     }
   </style>
   <body>
@@ -377,85 +380,65 @@
         </div>
       </div>
     </div>
-    <footer>
-      <div
-        style="
-          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-          font-size: 20px;
-          letter-spacing: 1px;
-          margin-left: 40px;
-        "
-      >
-        <b>STAY CONNECTED TO US</b>
+    <footer class="footer">
+      <div>
+        <div style="padding-left: 50px ;">CONNECT WITH US</div>
+        <div class="socials">
+            <div>
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                style="color: white; margin: 0 5px; font-size: 30px"
+              >
+                <i class="fab fa-facebook"></i>
+              </a>
+            </div>
+            <div>
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                style="color: white; margin: 0 5px; font-size: 33px"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+            <div>
+              <a
+                href="https://www.youtube.com"
+                target="_blank"
+                style="color: white; margin: 0 5px; font-size: 32px"
+              >
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+        </div>
       </div>
-      <div
-        class="social-icons"
-        style="text-align: center; margin-top: 10px; margin-left: -1170px"
-      >
-        <a
-          href="https://www.facebook.com"
-          target="_blank"
-          style="color: white; margin: 0 5px; font-size: 30px"
-        >
-          <i class="fab fa-facebook"></i>
-        </a>
+      <div class="navigations">
+        <div>NAVIGATIONS</div>
+        <div style="margin-top: 5px;"
+          ><a href="about.html"
+              style="text-decoration: none;
+              color: white"
+          >About us</a>
+        </div>
+        <div style="margin-top: 5px;"
+          ><a href="contact.html"
+              style="text-decoration: none;
+              color: white"
+          >Contact Us</a>
+        </div>
+        <div style="margin-top: 5px;"
+          ><a href="termandcond.html"
+              style="text-decoration: none;
+              color: white"
+          >Terms and Conditions</a>
+        </div>
       </div>
-
-      <div
-        class="social-icons"
-        style="text-align: center; margin-top: -34px; margin-left: -1070px"
-      >
-        <a
-          href="https://www.instagram.com"
-          target="_blank"
-          style="color: white; margin: 0 5px; font-size: 33px"
-        >
-          <i class="fab fa-instagram"></i>
-        </a>
+      <div style="display: flex;
+                  justify-content: flex-end;
+                  width: 70%;"
+        >&copy; 2024 Photography Collective. All rights reserved
       </div>
-
-      <div
-        class="social-icons"
-        style="text-align: center; margin-top: -36px; margin-left: -960px"
-      >
-        <a
-          href="https://www.youtube.com"
-          target="_blank"
-          style="color: white; margin: 0 5px; font-size: 32px"
-        >
-          <i class="fab fa-youtube"></i>
-        </a>
-      </div>
-
-      <div
-        class="footer-links"
-        style="
-          margin: -22px 0 0 970px;
-          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-          font-size: 19px;
-        "
-      >
-        <a href="contact.html" style="color: white; text-decoration: none"
-          >Contact Us</a
-        >
-      </div>
-
-      <div
-        class="footer-links"
-        style="
-          margin: -22px 0 0 1100px;
-          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-          font-size: 19px;
-        "
-      >
-        <a href="termsAndCond.html" style="color: white; text-decoration: none"
-          >Terms and Conditions</a
-        >
-      </div>
-
-      <div class="footer-reservedtext">
-        &copy; 2024 Photography Collective. All rights reserved.
-      </div>
-    </footer>
+  </footer>
   </body>
 </html>

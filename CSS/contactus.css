@@ -1,7 +1,5 @@
 body, html {
   margin: 0;
-  padding: 0;
-  overflow: hidden;
 }
 
 .navigation-bar {
@@ -82,4 +80,30 @@ li a:active {
   align-self: center;
   text-align: center;
   color: aliceblue;
+}
+
+.footer{
+  width: 100%;
+  height: 130px;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+}
+
+.socials{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-left: 50px ;
+  gap: 2px;
+}
+
+.navigations{
+  padding-left: 50px ;
+  display: flex;
+  flex-direction: column;
 }
