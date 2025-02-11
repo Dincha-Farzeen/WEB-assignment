@@ -22,68 +22,77 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);   //$reviews is an array
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Reviews</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            padding: 20px;
-            background-color: grey;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: black;
-        }
-        .review {
-            border-bottom: 1px solid #greycc;
-            padding: 15px 0;
-        }
-        
-        .date {
-            color: white;
-            font-size: 14px;
-        }
-        .rating {
-            font-weight: bold;
-            color: black;
-        }
-        .comment {
-            margin: 10px 0;
-            color: white;
-        }
-        .user {
-            font-size: 16px;
-            color: #white;
-        }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 80%;
+        padding: 20px;
+        background-color: grey;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: black;
+    }
+
+    .review {
+        border-bottom: 1px solid grey;
+        padding: 15px 0;
+    }
+
+    .date {
+        color: white;
+        font-size: 14px;
+    }
+
+    .rating {
+        font-weight: bold;
+        color: black;
+    }
+
+    .comment {
+        margin: 10px 0;
+        color: white;
+    }
+
+    .user {
+        font-size: 16px;
+        color: white;
+    }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Client Reviews</h1>
+    <div class="container">
+        <h1>Client Reviews</h1>
 
-    <?php if (count($reviews) > 0): ?>
+        <?php if (count($reviews) > 0): ?>
         <?php foreach ($reviews as $review): ?>
-            <div class="review">
-                <div class="date"><?php echo htmlspecialchars($review['date']); ?></div>
-                <div class="rating">Rating: <?php echo htmlspecialchars($review['rating']); ?>/5</div>
-                <div class="comment"><?php echo htmlspecialchars($review['comment']); ?></div>
-                <div class="user">- Reviewed by <?php echo htmlspecialchars($review['user_name']); ?></div>
-            </div>
+        <div class="review">
+            <div class="date"><?php echo htmlspecialchars($review['date']); ?></div>
+            <div class="rating">Rating: <?php echo htmlspecialchars($review['rating']); ?>/5</div>
+            <div class="comment"><?php echo htmlspecialchars($review['comment']); ?></div>
+            <div class="user">- Reviewed by <?php echo htmlspecialchars($review['user_name']); ?></div>
+        </div>
         <?php endforeach; ?>
-    <?php else: ?>
+        <?php else: ?>
         <p>No reviews found.</p>
-    <?php endif; ?>
-</div>
+        <?php endif; ?>
+    </div>
 
 </body>
+
 </html>
 
 <?php
