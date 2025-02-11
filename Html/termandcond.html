@@ -67,6 +67,7 @@
     .image-section {
         width: 50%;
         height: 100vh;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -143,6 +144,33 @@
         cursor: pointer;
         text-align: center;
     }
+
+    .footer {
+        width: 100%;
+        margin-top: 10px;
+        height: 130px;
+        background-color: black;
+        display: flex;
+        flex-direction: row;
+        color: white;
+        align-items: center;
+    }
+
+    .socials {
+        margin-top: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding-left: 50px;
+        gap: 2px;
+    }
+
+    .navigations {
+        padding-left: 50px;
+        display: flex;
+        flex-direction: column;
+    }
 </style>
 
 <body>
@@ -179,25 +207,73 @@
                         <h2>Terms and Conditions</h2>
                         <p>
                             <b>1. Introduction</b><br><br>
-                                Welcome to <b>Pasta La Vista</b>. These Terms and Conditions govern your use of our website
-                                and services.
-                                By accessing or using our platform, you agree to comply with these terms.
-                                If you do not agree, please do not use our services.
+                            Welcome to <b>Pasta La Vista</b>. These Terms and Conditions govern your use of our website
+                            and services.
+                            By accessing or using our platform, you agree to comply with these terms.
+                            If you do not agree, please do not use our services.
 
                             <br><br><b>2. User Accounts</b>
-                            <ul>
-                                <li>Users can browse freely but must create an account to book a photographer</li>
-                                <li>We collect and store your phone number, Gmail, and password (which is encrypted for
-                                    security)</li>
-                            </ul>
+                        <ul>
+                            <li>Users can browse freely but must create an account to book a photographer</li>
+                            <li>We collect and store your phone number, Gmail, and password (which is encrypted for
+                                security)</li>
+                        </ul>
 
-                            <b>3. Booking and Payment</b>
-                            <ul>
-                                <li>Users can book individual photographers or a team for their events</li>
-                                <li>Full payment is required at the time of booking</li>
-                                <li>Cancellations are allowed, but only a portion of the payment will be refunded. The exact
-                                    refund percentage will be outlined in our cancellation policy</li>
-                            </ul>
+                        <b>3. Booking and Payment</b>
+                        <ul>
+                            <li>Users can book individual photographers or a team for their events</li>
+                            <li>Full payment is required at the time of booking</li>
+                            <li>Cancellations are allowed, but only a portion of the payment will be refunded. The exact
+                                refund percentage will be outlined in our cancellation policy</li>
+                        </ul>
+
+                        <b>4. Reviews and Comments</b>
+                        <ul>
+                            <li>Users can leave reviews and comments on photographers</li>
+                            <li>Any inappropriate language, offensive content, or spam is strictly prohibited. We
+                                reserve the right to remove such content and suspend accounts that violate this policy
+                            </li>
+                        </ul>
+
+                        <b>5. Privacy Policy</b>
+                        <ul>
+                            <li>We do not share user data with any third parties</li>
+                            <li>All personal information is stored securely in our database and used only for platform
+                                functionality
+                            </li>
+                        </ul>
+
+                        <b>6. Liability Disclaimer</b>
+                        <ul>
+                            <li>Our platform serves as a connection between users and photographers. We are not
+                                responsible for any disputes, issues, or damages that may arise between users and
+                                photographers</li>
+                            <li>Any disputes should be resolved directly between the parties involved, either in person
+                                or via call
+                            </li>
+                        </ul>
+
+                        <b>7. Copyright and Consent</b>
+                        <ul>
+                            <li>We do not post or use any pictures of users unless consent is obtained from our
+                                photographers</li>
+                            <li>All images uploaded by photographers remain their intellectual property unless otherwise
+                                agreed
+                            </li>
+                        </ul>
+
+                        <b>8. Account Termination</b>
+                        <ul>
+                            <li>Users can delete their accounts at any time if no pending bookings exist</li>
+                            <li>We reserve the right to suspend or terminate accounts that violate our policies
+                            </li>
+                        </ul>
+
+                        <b>9. Amendments</b>
+                        <ul>
+                            <li>We may update these Terms and Conditions as necessary. Users will be notified of any
+                                significant changes</li>
+                        </ul>
                         </p>
                     </div>
                 </div>
@@ -207,7 +283,47 @@
             <img src="termandcond.jpg" class="image">
         </div>
     </div>
-
+    <footer class="footer">
+        <div>
+            <div style="padding-left: 50px ;">CONNECT WITH US</div>
+            <div class="socials">
+                <div>
+                    <a href="https://www.facebook.com" target="_blank"
+                        style="color: white; margin: 0 5px; font-size: 30px">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://www.instagram.com" target="_blank"
+                        style="color: white; margin: 0 5px; font-size: 33px">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://www.youtube.com" target="_blank"
+                        style="color: white; margin: 0 5px; font-size: 32px">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="navigations">
+            <div>NAVIGATIONS</div>
+            <div style="margin-top: 5px;"><a href="about.html" style="text-decoration: none;
+                color: white">About us</a>
+            </div>
+            <div style="margin-top: 5px;"><a href="contact.html" style="text-decoration: none;
+                color: white">Contact Us</a>
+            </div>
+            <div style="margin-top: 5px;"><a href="termandcond.html" style="text-decoration: none;
+                color: white">Terms and Conditions</a>
+            </div>
+        </div>
+        <div style="display: flex;
+                    justify-content: flex-end;
+                    width: 70%;">&copy; 2024 Photography Collective. All rights reserved
+        </div>
+    </footer>
 </body>
 
 </html>
