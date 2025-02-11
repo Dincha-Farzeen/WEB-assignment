@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Term and Conditions</title>
+    <link rel="stylesheet" href="../css/PhotographerCSS.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<style>
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+    }
+
+    .navigation-bar {
+        /*the navigation at the top*/
+        list-style-type: none;
+        margin-top: 10px;
+        padding: 0;
+        overflow: hidden;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    li {
+        /*Customize the navigation*/
+        margin: 0 30px;
+    }
+
+    li a {
+        /*Customize the navigation*/
+        display: block;
+        padding: 10px 30px;
+        border-radius: 40px;
+        background-color: transparent;
+        color: black;
+        text-decoration: none;
+        font-size: 18px;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    }
+
+    li a:hover {
+        /*customize the navigation when hovering*/
+        background-color: aliceblue;
+    }
+
+    li a:active {
+        transform: scale(1.001);
+        background-color: rgb(215, 224, 231);
+    }
+
+    .text-section {
+        max-width: 600px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin-left: 100px;
+        margin-top: 130px;
+    }
+
+    .image-section {
+        width: 50%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image {
+        width: 90%;
+        height: 90vh;
+    }
+
+    .termandcond {
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 90px;
+    }
+
+    /* Hide the checkbox */
+    .popup-checkbox {
+        display: none;
+    }
+
+    /* Popup container (hidden by default) */
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        /* Background blur effect */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .popup-content {
+        background: white;
+        padding: 20px;
+        width: 800px;
+        height: 80vh;
+        overflow-y: auto;
+        border-radius: 8px;
+        text-align: left;
+        position: relative;
+        display: block
+    }
+
+
+    /* Close button */
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Show popup when checkbox is checked */
+    .popup-checkbox:checked~.popup {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Button to open popup */
+    .open-popup {
+        display: inline-block;
+        margin-top: 40px;
+        padding: 10px 20px;
+        background-color: rgb(239, 127, 23);
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <nav class="navigation-bar">
+        <li><a href="homepage.html"> Home </a></li>
+        <li><a href="myAccount.php"> My Account </a></li>
+        <li><a href="#"> Booking </a></li>
+        <li><a href="#"> Reviews </a></li>
+        <li><a href="All Profiles.html"> Photographers' Profiles </a></li>
+    </nav>
+    <div style="display: flex; flex-direction: row;
+                height: 100vh;">
+        <div class="text-section">
+            <div class="termandcond">
+                TERMS AND CONDITIONS
+            </div>
+            <div style="margin-top: 40px;
+                        width: 480px;">
+                Before proceeding, you need to agree to our Terms and Conditions.
+                These outline our policies on privacy, user responsibilities, and
+                service usage. By continuing, you acknowledge that you have read
+                and understood these terms. Click the button below to review the full details
+            </div>
+            <div class="button">
+                <label for="popup-toggle" class="open-popup">Terms and Conditions</label>
+
+                <!-- Hidden checkbox to control the popup -->
+                <input type="checkbox" id="popup-toggle" class="popup-checkbox">
+
+                <!-- Pop-up container -->
+                <div class="popup">
+                    <div class="popup-content">
+                        <label for="popup-toggle" class="close-popup">&times;</label>
+                        <h2>Terms and Conditions</h2>
+                        <p>
+                            <b>1. Introduction</b><br><br>
+                                Welcome to <b>Pasta La Vista</b>. These Terms and Conditions govern your use of our website
+                                and services.
+                                By accessing or using our platform, you agree to comply with these terms.
+                                If you do not agree, please do not use our services.
+
+                            <br><br><b>2. User Accounts</b>
+                            <ul>
+                                <li>Users can browse freely but must create an account to book a photographer</li>
+                                <li>We collect and store your phone number, Gmail, and password (which is encrypted for
+                                    security)</li>
+                            </ul>
+
+                            <b>3. Booking and Payment</b>
+                            <ul>
+                                <li>Users can book individual photographers or a team for their events</li>
+                                <li>Full payment is required at the time of booking</li>
+                                <li>Cancellations are allowed, but only a portion of the payment will be refunded. The exact
+                                    refund percentage will be outlined in our cancellation policy</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="image-section">
+            <img src="termandcond.jpg" class="image">
+        </div>
+    </div>
+
+</body>
+
+</html>
