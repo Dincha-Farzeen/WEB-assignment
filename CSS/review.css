@@ -65,7 +65,7 @@ nav a:hover {
   flex-direction: column;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 2px 5px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.09);
 }
 
 .material-icons {
@@ -81,7 +81,7 @@ nav a:hover {
   flex-direction: column;
   padding: 10px 10px 10px 40px;
   border-radius: 10px;
-  box-shadow: 2px 5px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.09);
   justify-content: center;
   align-items: left;
 }
@@ -90,19 +90,23 @@ nav a:hover {
   text-align: left;
 }
 
-.sorting-bar {
-  margin: 40px 0 0 100px;
-  display: flex;
-  flex-direction: row;
+.review-container{
+  height: 600px;
+  width: 1200px;
+  margin: 30px 0 0 0;
+  justify-self: center;
+  background-color:ghostwhite;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: inset 1px 1px 7px rgba(0, 0, 0, 0.2) ;
 }
 
-.sorting-box {
-  background-color: rgb(252, 251, 251);
-  width: 250px;
-  height: 30px;
-  text-align: center;
-  align-content: center;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
-
+.sorting-box{
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(241, 241, 241);
+  padding: 10px 20px 10px 20px;
+  justify-self: right;
+  border-radius: 30px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
 }
