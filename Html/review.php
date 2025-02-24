@@ -1,100 +1,167 @@
 <?php
-
-$dsn = "mysql:host=localhost;dbname=photography_collective";
-$username = 'root';
-$password = '';
-
 try {
-    $conn = new PDO($dsn, $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Database connection details
+    $dsn = "mysql:host=localhost;dbname=photography_collective;charset=utf8mb4";
+    $dbusername = "root";
+    $dbpassword = "";
+
+    // Create a new PDO instance
+    $pdo = new PDO($dsn, $dbusername, $dbpassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Prepare and execute the SQL statement
+    $sql = "SELECT u_name FROM registered_user ORDER BY u_name ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+    // Log the error and show a generic message
+    error_log("Database error: " . $e->getMessage());
+    $error = "database_error";
 }
-
-$sql = "SELECT r.date, r.rating, r.comment, u.user_name 
-        FROM reviews r JOIN registered_user u 
-        WHERE (r.u_id = u.u_id)";
-
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);   //$reviews is an array
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Reviews</title>
-    <style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        width: 80%;
-        padding: 20px;
-        background-color: grey;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        text-align: center;
-        color: black;
-    }
-
-    .review {
-        border-bottom: 1px solid grey;
-        padding: 15px 0;
-    }
-
-    .date {
-        color: white;
-        font-size: 14px;
-    }
-
-    .rating {
-        font-weight: bold;
-        color: black;
-    }
-
-    .comment {
-        margin: 10px 0;
-        color: white;
-    }
-
-    .user {
-        font-size: 16px;
-        color: white;
-    }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../CSS/review.css">
+    <title>Reviews</title>
 </head>
 
 <body>
-
-    <div class="container">
-        <h1>Client Reviews</h1>
-
-        <?php if (count($reviews) > 0): ?>
-        <?php foreach ($reviews as $review): ?>
-        <div class="review">
-            <div class="date"><?php echo htmlspecialchars($review['date']); ?></div>
-            <div class="rating">Rating: <?php echo htmlspecialchars($review['rating']); ?>/5</div>
-            <div class="comment"><?php echo htmlspecialchars($review['comment']); ?></div>
-            <div class="user">- Reviewed by <?php echo htmlspecialchars($review['user_name']); ?></div>
+    <nav>
+        <a class="homeactive">Home</a>
+        <a href="booking.php">Book Now</a>
+        <a class="reviewactive" href="review.php">Reviews</a>
+        <a href="about.html">About Us</a>
+        <a href="login.php">Log In/Sign Up</a>
+        <a href="myAccount.php">My Profile</a>
+    </nav>
+    <div style="display: flex; flex-direction: row">
+        <div class="text-area">
+            <h1 class="heading">LET'S HEAR FROM OUR CUSTOMERS</h1>
+            <p class="paragraph">
+                We value the feedback and experiences of our customers. Your reviews
+                help us improve and ensure we provide the best service possible. Take
+                a moment to read what others have shared, and feel free to leave your
+                thoughts as well!
+            </p>
         </div>
-        <?php endforeach; ?>
-        <?php else: ?>
-        <p>No reviews found.</p>
-        <?php endif; ?>
+        <div class="image-area"></div>
     </div>
+    <div
+        style="display: flex; flex-direction: row; justify-content: space-evenly">
+        <div class="review-box">
+            <p style="font-weight: 700; font-size: 20px; margin-left: 10px">
+                Reviews
+            </p>
+            <div>
+                <div style="text-align: center; margin-top: 20px">
+                    <p
+                        style="
+                font-size: 60px;
+                margin-top: -10px;
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
+                  sans-serif;
+                display: inline;
+              ">
+                        4.5
+                    </p>
+                    <p style="display: inline">out of 5</p>
+                </div>
+                <div style="text-align: center">
+                    <span class="material-icons" style="font-size: 25px">star</span>
+                    <span class="material-icons" style="font-size: 25px">star</span>
+                    <span class="material-icons" style="font-size: 25px">star</span>
+                    <span class="material-icons" style="font-size: 25px">star</span>
+                    <span class="material-icons" style="font-size: 25px">star_half</span>
+                </div>
+            </div>
+        </div>
+        <div class="star-box">
+            <div class="star-review">
+                <p style="display: inline; font-size: 25px">5</p>
+                <span
+                    class="material-icons"
+                    style="font-size: 20px; margin-left: 10px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <p style="display: inline">
+                    <b style="font-size: 20px; margin-left: 13px">70%</b> (90 reviews)
+                </p>
+            </div>
 
+            <div class="star-review">
+                <p style="display: inline; font-size: 25px">4</p>
+                <span
+                    class="material-icons"
+                    style="font-size: 20px; margin-left: 10px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <p style="display: inline">
+                    <b style="font-size: 20px; margin-left: 13px">15%</b> (18 reviews)
+                </p>
+            </div>
+
+            <div class="star-review">
+                <p style="display: inline; font-size: 25px">3</p>
+                <span
+                    class="material-icons"
+                    style="font-size: 20px; margin-left: 10px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <p style="display: inline">
+                    <b style="font-size: 20px; margin-left: 13px">5%</b> (6 reviews)
+                </p>
+            </div>
+
+            <div class="star-review">
+                <p style="display: inline; font-size: 25px">2</p>
+                <span
+                    class="material-icons"
+                    style="font-size: 20px; margin-left: 10px">star</span>
+                <span class="material-icons" style="font-size: 20px">star</span>
+                <p style="display: inline">
+                    <b style="font-size: 20px; margin-left: 13px">3%</b> (4 reviews)
+                </p>
+            </div>
+
+            <div class="star-review">
+                <p style="display: inline; font-size: 25px">1</p>
+                <span
+                    class="material-icons"
+                    style="font-size: 20px; margin-left: 10px">star</span>
+                <p style="display: inline">
+                    <b style="font-size: 20px; margin-left: 13px">2%</b> (2 reviews)
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="review-container">
+        <div class="sorting-box">
+            <div>Sorting by</div>
+            <div class="material-icons" style="color: black; font-size: 20px;">
+                arrow_drop_down
+            </div>
+        </div>
+        <div class="inner-review-container"><p>hello</p>
+        </div>
+
+    </div>
+    <br><br><br><br>
 </body>
 
 </html>
-
-<?php
-$conn = null;
-?>
