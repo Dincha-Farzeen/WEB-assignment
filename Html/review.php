@@ -34,10 +34,159 @@ try {
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link rel="stylesheet" href="../CSS/review.css">
     <title>Reviews</title>
 </head>
+<style>body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+nav {
+  justify-content: space-evenly;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  border-radius: 20px;
+  padding: 10px 20px 10px 20px;
+  margin-top: 10px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  transition: all 0.7s ease-in-out;
+  color: black;
+}
+
+nav a:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.reviewactive {
+  background-color: rgb(232, 230, 230);
+}
+
+.text-area {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-area {
+  width: 40%;
+  height: 500px;
+  background-image: url("../Html/review.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.heading {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 70px;
+  letter-spacing: 7px;
+  margin-left: 100px;
+  margin-top: 60px;
+}
+
+.paragraph {
+  margin-left: 100px;
+  width: 600px;
+  margin-top: -10px;
+  font-size: 18px;
+}
+
+.review-box {
+  width: 230px;
+  height: 180px;
+  background-color: rgb(252, 250, 242);
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.09);
+}
+
+.material-icons {
+  color: gold;
+  display: inline-flex;
+}
+
+.star-box {
+  width: 330px;
+  height: 180px;
+  background-color: rgb(252, 250, 242);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 10px 40px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.09);
+  justify-content: center;
+  align-items: left;
+}
+
+.star-review {
+  text-align: left;
+}
+
+.review-container {
+  width: 1200px;
+  height: 500px;
+  margin: 30px auto;
+  background-color: ghostwhite;
+  display: flex;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: inset 1px 1px 7px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown {
+  background-color: #c3c3e9;
+  border: none;
+  padding: 10px 16px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.5s ease-out;
+}
+
+.dropdown:hover {
+  /*Customize dropdown when hovering on the box*/
+  background-color: #b6b6d8;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-content {
+  /*Customize contents being displayed when hovering*/
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 200px;
+  margin-top: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 6;
+}
+
+.dropdown-content a {
+  /*Customize the content of the drop down*/
+  color: black;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 5px;
+}
+
+.dropdown-content a:hover {
+  /*Customize when hovering over the drop down content*/
+  background-color: #c4c4ee;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown:hover .dropdown-content {
+  /* Show the dropdown menu on hover */
+  display: block;
+}
+</style>
 <body>
     <nav>
         <a class="homeactive">Home</a>
@@ -151,15 +300,18 @@ try {
         </div>
     </div>
     <div class="review-container">
-        <div class="sorting-box">
-            <div>Sorting by</div>
-            <div class="material-icons" style="color: black; font-size: 20px;">
-                arrow_drop_down
+        <div style="width: 300px; height: 100px; background-color: aqua; display: flex; flex-direction: row;">
+            <div>FILTER REVIEWS</div>
+            <div class="dropdown ">BROWSE PHOTOGRAPHERS</div>
+            <div class="dropdown-content">
+                <a href="Photographer1.html">Alex Johnson</a>
+                <a href="Photographer2.html">Sam Lee</a>
+                <a href="Photographer3.html">Olivia Martinez</a>
+                <a href="Photographer4.html">Liam Smith</a>
+                <a href="Photographer5.html">Emma Davidson</a>
+                <a href="Photographer7.html">Sophia Brown</a>
             </div>
         </div>
-        <div class="inner-review-container"><p>hello</p>
-        </div>
-
     </div>
     <br><br><br><br>
 </body>
