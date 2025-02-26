@@ -2,6 +2,7 @@
 session_start(); // Ensure session is started
 
 try {
+    // Database connection 
     $dsn = "mysql:host=localhost;dbname=photography_collective;charset=utf8mb4";
     $dbusername = "root";
     $dbpassword = "";
@@ -10,25 +11,27 @@ try {
     $pdo = new PDO($dsn, $dbusername, $dbpassword);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Initialize variables
+    $avg_rating = 0.0; // Default value
+    $ratings = []; // Default value
+
     // Handle form submission for leaving a review
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'], $_POST['comment'], $_POST['event'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'], $_POST['comment'])) {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
-        $booking_id = $_POST['event'];
-        $username = $_SESSION['username']; // Assuming username is stored in session
+        $userId = $_SESSION['user_id']; // Assuming user ID is stored in session
 
-        // Fetch the user ID based on the username
-        $userQuery = $pdo->prepare("SELECT u_id FROM registered_user WHERE u_name = ?");
-        $userQuery->execute([$username]);
+        // Fetch the user name based on the user ID
+        $userQuery = $pdo->prepare("SELECT u_name FROM registered_user WHERE u_id = ?");
+        $userQuery->execute([$userId]);
         $user = $userQuery->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $userId = $user['u_id'];
             $date = date('Y-m-d H:i:s'); // Get the current date and time
 
             // Insert the review into the reviews table
-            $insertQuery = $pdo->prepare("INSERT INTO reviews (rating, date, comment, u_id, booking_id) VALUES (?, ?, ?, ?, ?)");
-            $insertQuery->execute([$rating, $date, $comment, $userId, $booking_id]);
+            $insertQuery = $pdo->prepare("INSERT INTO reviews (rating, date, comment, u_id) VALUES (?, ?, ?, ?)");
+            $insertQuery->execute([$rating, $date, $comment, $userId]);
 
             // Redirect to the same page to avoid form resubmission
             header("Location: review.php");
@@ -38,9 +41,9 @@ try {
         }
     }
 
-    // Determine the order by clause based on the user's selection
+    // Fetch reviews and calculate average rating
     $orderBy = "date ASC";
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sortReview'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $selectedFilter = $_POST['sortReview'] ?? 'oldest';
         if ($selectedFilter === 'newest') {
             $orderBy = "date DESC";
@@ -62,7 +65,9 @@ try {
 
     // Get average rating
     $avgQuery = $pdo->query("SELECT AVG(rating) AS avg_rating FROM reviews");
-    $avg_rating = number_format($avgQuery->fetch(PDO::FETCH_ASSOC)['avg_rating'], 1);
+    if ($avgQuery) {
+        $avg_rating = number_format($avgQuery->fetch(PDO::FETCH_ASSOC)['avg_rating'], 1);
+    }
 
     // Get star rating distribution and percentages
     $ratingQuery = $pdo->query("
@@ -70,14 +75,12 @@ try {
                (COUNT(*) * 100 / (SELECT COUNT(*) FROM reviews)) AS percentage 
         FROM reviews GROUP BY rating ORDER BY rating DESC
     ");
-    $ratings = [];
     while ($row = $ratingQuery->fetch(PDO::FETCH_ASSOC)) {
         $ratings[$row['rating']] = [
             'count' => $row['count'],
             'percentage' => number_format($row['percentage'], 2) . '%'
         ];
     }
-
 } catch (PDOException $e) {
     // Log the error and show a detailed message
     error_log("Database error: " . $e->getMessage());
