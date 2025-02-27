@@ -2,6 +2,7 @@
 
 session_start();
 
+
 $dsn = "mysql:host=localhost;dbname=photography_collective";
 $username = 'root';
 $password = '';
@@ -11,16 +12,15 @@ try {
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
   echo "Database connection failed: " . $e->getMessage();
-  exit();
 }
 
-$user_id = $_SESSION['user_id'];
+
+$user_id = $_SESSION['user_id']; // Fetch user data based on session user_id
 if ($user_id === null) {
   header("Location: login.php");
   exit();
 }
 
-// Fetch user details
 $sql = "SELECT u_name, u_email, u_phoneNum, user_name FROM registered_user WHERE u_id = :user_id";
 $stmt = $conn->prepare($sql);
 $stmt->execute([':user_id' => $user_id]);
@@ -31,36 +31,22 @@ if (!$user) {
   exit();
 }
 
-$sql = "SELECT 
-            b.booking_id, 
-            b.location, 
-            b.description,
-            b.price, 
-            b.payment_date, 
-            bd.booking_date, 
-            GROUP_CONCAT(p.name SEPARATOR ', ') AS photographers
-        FROM 
-            booking b
-        JOIN 
-            booking_dates bd ON b.booking_id = bd.booking_id
-        LEFT JOIN 
-            booked_photographers bp ON b.booking_id = bp.booking_id
-        LEFT JOIN 
-            photographer p ON bp.photographer_id = p.photographer_id
-        WHERE 
-            b.u_id = :user_id
-        GROUP BY 
-            b.booking_id";
+$sql = "SELECT b.description, b.location, b.price, b.payment_date, bd.booking_date, b.numberOfDays,
+               GROUP_CONCAT(p.name SEPARATOR ', ') AS photographers
+        FROM booking b
+        JOIN booking_dates bd ON b.booking_id = bd.booking_id
+        LEFT JOIN booked_photographers bp ON b.booking_id = bp.booking_id
+        LEFT JOIN photographer p ON bp.photographer_id = p.photographer_id
+        WHERE b.u_id = :user_id
+        GROUP BY b.booking_id";
 
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-$stmt->execute();
-
+$stmt->execute([':user_id' => $user_id]);
 $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 $conn = null;
 ?>
-
 
 
 <!DOCTYPE html>
@@ -113,6 +99,7 @@ $conn = null;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
+
     .container {
       flex: 1;
       margin: 40px auto;
@@ -128,9 +115,9 @@ $conn = null;
 
 
     .left-column {
-      width: 40%;
+      width: 35%;
       height: 100%;
-      background: linear-gradient(135deg, #008080, #20B2AA);
+      background-color: #008080;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -139,7 +126,7 @@ $conn = null;
     }
 
     .left-column img {
-      width: 50%;
+      width: 90%;
       height: auto;
       object-fit: cover;
 
@@ -156,11 +143,39 @@ $conn = null;
     }
 
     .information-container {
-      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-      font-size: 17px;
-      font-weight: bold;
-      color: white;
+      width: 80%;
+      max-height: 300px;
+      margin-top: 2px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      margin: 15px 0;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
       text-align: left;
+      border: none;
+    }
+
+    th {
+      background-color: rgba(0, 128, 128, 0.34);
+    }
+
+    .additional-info {
+      display: none;
+      height: max-content;
+    }
+
+    .show {
+      display: table-row;
     }
 
     button {
@@ -184,67 +199,22 @@ $conn = null;
       border: none;
       height: 28px;
       font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-      border-radius: 17px;
+      border-radius: 10px;
       align-content: center;
       font-weight: bold;
       font-size: 14px;
-      padding: 5px 12px;
+      padding-left: 10px;
+      padding-right: 10px;
       text-decoration: none;
       width: auto;
-      transition: background-color 0.3s;
-    }
-
-    .button-edit:hover {
-      background-color: #d3e0e7;
     }
 
     .btns {
-      margin-top: 30px;
+      margin-top: 10px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       width: 80%;
-    }
-
-    .booking-container {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      width: 90%;
-      height: 80%;
-      overflow-y: scroll;
-    }
-
-    .display-information {
-      width: 90%;
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 20px;
-      background-color: #f0f0f0;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .container-information {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .text-display {
-      font-weight: bold;
-      width: 30%;
-    }
-
-    .text-container {
-      background-color: rgba(255, 255, 255, 0.2);
-      padding: 10px;
-      border-radius: 10px;
-      width: 65%
     }
   </style>
 </head>
@@ -262,34 +232,23 @@ $conn = null;
 
   <div class="container">
     <div class="left-column">
-      <img src="user.png" alt="User Image" style="border-radius: 50%; margin-bottom: 20px;"></img>
-      <div class="information-container" style="width: 90%;">
-        <div style="margin-bottom: 10px;">
-          <div style="font-size: 15px; margin-bottom: 5px;">Name</div>
-          <div style="background-color: rgba(255, 255, 255, 0.2); padding: 10px; border-radius: 10px;">
-            <?php echo htmlspecialchars($user['u_name']); ?>
-          </div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="font-size: 15px; margin-bottom: 5px;">Username</div>
-          <div style="background-color: rgba(255, 255, 255, 0.2); padding: 10px; border-radius: 10px;">
-            <?php echo htmlspecialchars($user['user_name']); ?>
-          </div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="font-size: 15px; margin-bottom: 5px;">Email</div>
-          <div style="background-color: rgba(255, 255, 255, 0.2); padding: 10px; border-radius: 10px;">
-            <?php echo htmlspecialchars($user['u_email']); ?>
-          </div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="font-size: 15px; margin-bottom: 5px;">Phone Number</div>
-          <div style="background-color: rgba(255, 255, 255, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 10px;">
-            <?php echo htmlspecialchars($user['u_phoneNum']); ?>
-          </div>
-        </div>
+      <img src="user.png"></img>
+      <div class="information-container" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman',serif;
+        font-size: 17px; font-weight: bold; color:white;">
+        Name:
+        <?php echo htmlspecialchars($user['u_name']); ?>
+        <br />
+        Username:
+        <?php echo htmlspecialchars($user['user_name']); ?>
+        <br />
+        Email:
+        <?php echo htmlspecialchars($user['u_email']); ?>
+        <br />
+        Phone Number:
+        <?php echo htmlspecialchars($user['u_phoneNum']); ?>
+        <br />
       </div>
-      <div class="btns" style="margin-top: 10px;">
+      <div class="btns">
         <a class="button-edit" href="editAccount.php">Edit details</a>
         <a class="button-edit" href="logout.php">Log out</a>
       </div>
@@ -298,42 +257,49 @@ $conn = null;
       <div style="color: #008080;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',sans-serif;letter-spacing: 2px;font-size: 30px; margin-top:30px;">
         Your Bookings
       </div>
-      <div class="booking-container">
-        <?php if (count($bookings) == 0) {
-          echo "<p>No bookings found.</p>";
-        } else {
-          foreach ($bookings as $booking) { ?>
-            <div class="display-information">
-              <div style="display: flex; flex-direction: column; width: 100%;">
-                <div class="container-information">
-                  <div class="text-display">Description:</div>
-                  <div class="text-container"><?php echo htmlspecialchars($booking['description']); ?></div>
-                </div>
-                <div class="container-information">
-                  <div class="text-display">Location:</div>
-                  <div class="text-container"><?php echo htmlspecialchars($booking['location']); ?></div>
-                </div>
-                <div class="container-information">
-                  <div class="text-display">Price:</div>
-                  <div class="text-container"><?php echo htmlspecialchars($booking['price']); ?></div>
-                </div>
-                <div class="container-information">
-                  <div class="text-display">Payment Date:</div>
-                  <div class="text-container"><?php echo $booking['payment_date'] ? htmlspecialchars($booking['payment_date']) : 'Not Paid'; ?></div>
-                </div>
-                <div class="container-information">
-                  <div class="text-display">Booking Date:</div>
-                  <div class="text-container"><?php echo htmlspecialchars($booking['booking_date']); ?></div>
-                </div>
-                <div class="container-information">
-                  <div class="text-display">Photographers:</div>
-                  <div class="text-container"><?php echo htmlspecialchars($booking['photographers']); ?></div>
-                </div>
-              </div>
-            </div>
-        <?php }
-        }
-        ?>
+      <div class="information-container" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman',serif;
+        font-size: 15px;font-weight: bold;">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking Date</th>
+              <th>Description</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($bookings as $booking): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($booking['booking_date']); ?></td>
+                <td><?php echo htmlspecialchars($booking['description']); ?></td>
+                <td><button onclick="toggleDetails(this)">View Details</button></td>
+              </tr>
+              <tr class="additional-info" style="font-weight:lighter;">
+                <td colspan="3">
+                  <?php echo htmlspecialchars($booking['numberOfDays']); ?>-day event held at
+                  <?php echo htmlspecialchars($booking['location']); ?> quoted at Rs
+                  <?php echo htmlspecialchars($booking['price']); ?> with an outstanding balance of Rs
+                  <?php echo htmlspecialchars($booking['price']); ?>. <br>
+                  <strong>Photographer(s): </strong>
+                  <?php echo htmlspecialchars($booking['photographers'] ?: 'Not Assigned'); ?>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+
+        </table>
+
+        <script>
+          function toggleDetails(button) {
+            const row = button.closest('tr');
+            const nextRow = row.nextElementSibling;
+
+            if (nextRow && nextRow.classList.contains('additional-info')) {
+              nextRow.classList.toggle('show');
+            }
+          }
+        </script>
+
       </div>
     </div>
   </div>
