@@ -5,7 +5,6 @@ html {
 }
 
 .navigation-bar {
-  /*the navigation at the top*/
   list-style-type: none;
   margin-top: 8px;
   padding: 0;
@@ -17,12 +16,10 @@ html {
 }
 
 li {
-  /*Customize the navigation*/
   margin: 0 30px;
 }
 
 li a {
-  /*Customize the navigation*/
   display: block;
   padding: 10px 30px;
   border-radius: 40px;
@@ -34,7 +31,6 @@ li a {
 }
 
 li a:hover {
-  /*customize the navigation when hovering*/
   background-color: aliceblue;
 }
 
@@ -44,7 +40,6 @@ li a:active {
 }
 
 .image-profile {
-  /*customize the image*/
   width: 350px;
   height: 350px;
   border-radius: 20px;
@@ -57,12 +52,11 @@ li a:active {
 }
 
 .image-profile img {
-  width: 100%; /* Makes the image fill the container */
-  height: auto; /* Maintains the aspect ratio */
+  width: 100%;
+  height: auto;
 }
 
 .heading-name {
-  /*customize the heading*/
   margin: -330px 0 0 130px;
   font-size: 60px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
@@ -70,7 +64,6 @@ li a:active {
 }
 
 .photographer-quote {
-  /*customize the the quote from the photographer*/
   padding-left: 10px;
   font-size: 19px;
   font-style: italic;
@@ -79,7 +72,6 @@ li a:active {
 }
 
 .button-book {
-  /*customize the button to book photographers*/
   border: none;
   position: absolute;
   background-color: #c3c3e9;
@@ -93,19 +85,17 @@ li a:active {
 }
 
 .button-book:hover {
-  /*Customize button when hovering on the box*/
   background-color: #b6b6d8;
   transform: scale(1.001);
+  cursor: pointer;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
 }
 
 .button-book:active {
-  /*Customize button when clicking on the box*/
   background-color: #b6b6d8;
 }
 
 .dropdown {
-  /*Customize dropdown button*/
   position: relative;
   display: inline-block;
   background-color: #c3c3e9;
@@ -119,13 +109,12 @@ li a:active {
 }
 
 .dropdown:hover {
-  /*Customize dropdown when hovering on the box*/
   background-color: #b6b6d8;
+  cursor: pointer;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown-content {
-  /*Customize contents being displayed when hovering*/
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -138,7 +127,6 @@ li a:active {
 }
 
 .dropdown-content a {
-  /*Customize the content of the drop down*/
   color: black;
   padding: 10px 16px;
   text-decoration: none;
@@ -147,13 +135,11 @@ li a:active {
 }
 
 .dropdown-content a:hover {
-  /*Customize when hovering over the drop down content*/
   background-color: #c4c4ee;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown:hover .dropdown-content {
-  /* Show the dropdown menu on hover */
   display: block;
 }
 
@@ -165,7 +151,7 @@ li a:active {
 }
 
 .heading-review {
-  position: absolute; /* Position overlay absolutely */
+  position: absolute;
   font-size: 29px;
   margin-top: -9px;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
@@ -242,7 +228,7 @@ li a:active {
 }
 
 .photo2-review:hover {
-  transform: scale(1.5); /* Zoom in the image */
+  transform: scale(1.5);
   padding: 20px 0 20px 0;
   z-index: 5;
 }
@@ -285,7 +271,7 @@ li a:active {
 }
 
 .photo3-review:hover {
-  transform: scale(1.5); /* Zoom in the image */
+  transform: scale(1.5);
   padding: 20px 0 20px 0;
   z-index: 5;
 }
@@ -356,7 +342,7 @@ li a:active {
   margin: -453px 0 0 999px;
 }
 
-.footer{
+.footer {
   width: 100%;
   margin-top: 10px;
   height: 130px;
@@ -367,18 +353,18 @@ li a:active {
   align-items: center;
 }
 
-.socials{
+.socials {
   margin-top: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding-left: 50px ;
+  padding-left: 50px;
   gap: 2px;
 }
 
-.navigations{
-  padding-left: 50px ;
+.navigations {
+  padding-left: 50px;
   display: flex;
   flex-direction: column;
 }

@@ -1,39 +1,32 @@
 <?php
-session_start(); // Ensure session is started
+session_start(); 
 
 try {
-    // Database connection 
     $dsn = "mysql:host=localhost;dbname=photography_collective;charset=utf8mb4";
     $dbusername = "root";
     $dbpassword = "";
 
-    // Create a new PDO instance
     $pdo = new PDO($dsn, $dbusername, $dbpassword);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Initialize variables
-    $avg_rating = 0.0; // Default value
-    $ratings = []; // Default value
+    $avg_rating = 0.0; 
+    $ratings = []; 
 
-    // Handle form submission for leaving a review
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'], $_POST['comment'])) {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
-        $userId = $_SESSION['user_id']; // Assuming user ID is stored in session
+        $userId = $_SESSION['user_id']; 
 
-        // Fetch the user name based on the user ID
         $userQuery = $pdo->prepare("SELECT u_name FROM registered_user WHERE u_id = ?");
         $userQuery->execute([$userId]);
         $user = $userQuery->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $date = date('Y-m-d H:i:s'); // Get the current date and time
+            $date = date('Y-m-d H:i:s');
 
-            // Insert the review into the reviews table
             $insertQuery = $pdo->prepare("INSERT INTO reviews (rating, date, comment, u_id) VALUES (?, ?, ?, ?)");
             $insertQuery->execute([$rating, $date, $comment, $userId]);
 
-            // Redirect to the same page to avoid form resubmission
             header("Location: review.php");
             exit();
         } else {
@@ -41,7 +34,6 @@ try {
         }
     }
 
-    // Fetch reviews and calculate average rating
     $orderBy = "date ASC";
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $selectedFilter = $_POST['sortReview'] ?? 'oldest';
@@ -50,7 +42,6 @@ try {
         }
     }
 
-    // Fetch reviews with user names
     $sql = "SELECT r.rating, r.date, r.comment, u.u_name 
             FROM reviews r 
             JOIN registered_user u ON r.u_id = u.u_id 
@@ -59,17 +50,14 @@ try {
     $stmt->execute();
     $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Get total number of reviews
     $totalQuery = $pdo->query("SELECT COUNT(*) AS total_reviews FROM reviews");
     $total_reviews = $totalQuery->fetch(PDO::FETCH_ASSOC)['total_reviews'];
 
-    // Get average rating
     $avgQuery = $pdo->query("SELECT AVG(rating) AS avg_rating FROM reviews");
     if ($avgQuery) {
         $avg_rating = number_format($avgQuery->fetch(PDO::FETCH_ASSOC)['avg_rating'], 1);
     }
 
-    // Get star rating distribution and percentages
     $ratingQuery = $pdo->query("
         SELECT rating, COUNT(*) AS count, 
                (COUNT(*) * 100 / (SELECT COUNT(*) FROM reviews)) AS percentage 
@@ -82,7 +70,6 @@ try {
         ];
     }
 } catch (PDOException $e) {
-    // Log the error and show a detailed message
     error_log("Database error: " . $e->getMessage());
     $error = "Database error: " . $e->getMessage();
 }

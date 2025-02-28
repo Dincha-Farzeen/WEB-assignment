@@ -15,7 +15,7 @@ try {
 }
 
 
-$user_id = $_SESSION['user_id']; // Fetch user data based on session user_id
+$user_id = $_SESSION['user_id']; 
 if ($user_id === null) {
   header("Location: login.php");
   exit();
@@ -85,7 +85,6 @@ $conn = null;
       text-decoration: none;
       border-radius: 20px;
       padding: 10px 20px 10px 20px;
-      margin-top: 10px;
       font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
       transition: all 0.7s ease-in-out;
       color: black;
@@ -269,11 +268,11 @@ $conn = null;
           </thead>
           <tbody>
             <?php foreach ($bookings as $booking): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($booking['booking_date']); ?></td>
-                <td><?php echo htmlspecialchars($booking['description']); ?></td>
-                <td><button onclick="toggleDetails(this)">View Details</button></td>
-              </tr>
+                <tr>
+                  <td><?php echo htmlspecialchars($booking['booking_date']); ?></td>
+                  <td><?php echo htmlspecialchars($booking['description']); ?></td>
+                  <td><button style="cursor: pointer;" onclick="toggleDetails(this)">View Details</button></td>
+                </tr>
               <tr class="additional-info" style="font-weight:lighter;">
                 <td colspan="3">
                   <?php echo htmlspecialchars($booking['numberOfDays']); ?>-day event held at

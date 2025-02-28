@@ -116,8 +116,6 @@
         display: block
     }
 
-
-    /* Close button */
     .close-popup {
         position: absolute;
         top: 10px;
@@ -126,13 +124,11 @@
         cursor: pointer;
     }
 
-    /* Show popup when checkbox is checked */
     .popup-checkbox:checked~.popup {
         opacity: 1;
         pointer-events: auto;
     }
 
-    /* Button to open popup */
     .open-popup {
         display: inline-block;
         margin-top: 40px;
@@ -176,8 +172,8 @@
     <nav class="navigation-bar">
         <li><a href="homepage.html"> Home </a></li>
         <li><a href="myAccount.php"> My Account </a></li>
-        <li><a href="#"> Booking </a></li>
-        <li><a href="#"> Reviews </a></li>
+        <li><a href="booking.php"> Booking </a></li>
+        <li><a href="review.php"> Reviews </a></li>
         <li><a href="All Profiles.html"> Photographers' Profiles </a></li>
     </nav>
     <div style="display: flex; flex-direction: row;
@@ -196,10 +192,8 @@
             <div class="button">
                 <label for="popup-toggle" class="open-popup">Terms and Conditions</label>
 
-                <!-- Hidden checkbox to control the popup -->
                 <input type="checkbox" id="popup-toggle" class="popup-checkbox">
 
-                <!-- Pop-up container -->
                 <div class="popup">
                     <div class="popup-content">
                         <label for="popup-toggle" class="close-popup">&times;</label>
