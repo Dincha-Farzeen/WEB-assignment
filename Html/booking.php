@@ -15,7 +15,7 @@ try {
 }
 
 
-$user_id = $_SESSION['user_id']; // Fetch user data based on session user_id
+$user_id = $_SESSION['user_id'];
 if ($user_id === null) {
   header("Location: login.php");
   exit();
@@ -31,9 +31,7 @@ if (!$user) {
   exit();
 }
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Get the submitted photographer's name from the POST data
   $photographerName = $_POST['photographer_name'] ?? '';
 } else {
   $photographerName = "Choose photographer(s)";
@@ -244,6 +242,53 @@ $conn = null;
     .btn-cancel:hover {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: left;
+      position: relative;
+      width: 80%;
+      max-width: 500px;
+      max-height: 80%;
+      overflow-y: auto;
+    }
+
+    .modal-content h2 {
+      text-align: center;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .message-box {
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
   </style>
 </head>
 
@@ -256,20 +301,20 @@ $conn = null;
 
       <div>
         <p>
-          E-mail: <?php echo htmlspecialchars($user['u_email']); ?> <br>
-          Phone Number: <?php echo htmlspecialchars($user['u_phoneNum']); ?> <br>
-          In case of any discrepencies, please update your information<br>
-          and come back again to continue booking.
+          <strong>E-mail:</strong> <?php echo htmlspecialchars($user['u_email']); ?> <br>
+          <strong> Number:</strong> <?php echo htmlspecialchars($user['u_phoneNum']); ?> <br>
+          <i>In case of any discrepencies, please update your information<br>
+          and come back again to continue booking.</i>
         </p>
         <a href="myAccount.php">Go to account settings</a></a>
       </div>
 
       <div class="form-container">
-        <form action='submit_booking.php' method='post'>
+        <form id="booking-form" action='../Html/request.php' method='POST'>
           <div class="dropdown">
             <label for="photographer_name"></label>
             <input type="text" id="photographer_name" name="photographer_name"
-              value="<?php echo htmlspecialchars($photographerName); ?>" placeholder="Photographer">
+              value="<?php echo htmlspecialchars($photographerName); ?>" placeholder="Photographer" readonly>
             <div class="photographer-options">
               <!-- Hardcoded photographer options -->
               <div onclick="updateTextField('Alex Johnson')">Alex Johnson</div>
@@ -280,24 +325,20 @@ $conn = null;
               <div onclick="updateTextField('Sophia Brown')">Sophia Brown</div>
               <div onclick="updateTextField('Francis Davis')">Francis Davis</div>
               <div onclick="updateTextField('Team of Photographers')">Team of Photographers</div>
-
             </div>
           </div>
 
           <div style="display:flex; flex-direction:row; align-items:center; width:85%; overflow:hidden;">
             <label for='date'>From</label>
-            <input type='date' id='startdate' name='startdate' style="margin-right:30px;">
+            <input type='date' id='startdate' name='startdate' style="margin-right:30px;" required>
 
             <label for='date'>To</label>
-            <input type='date' id='enddate' name='enddate'>
+            <input type='date' id='enddate' name='enddate' style="margin-right:30px;" required>
           </div>
-
-          <!-- <label for='numberOfdays'></label>
-                    <input type='numeric' id='numOfdays' name='numOfdays' placeholder="Number of days of event"> -->
 
           <div style="display:flex; flex-direction:row; align-items:center; width:85%;">
             <label for='descr'>Event Description</label>
-            <textarea id='descr' name='descr'></textarea>
+            <textarea id='descr' name='descr' required></textarea>
           </div>
 
           <div style="display:flex;justify-content:space-between;width:80%;">
@@ -307,33 +348,76 @@ $conn = null;
         </form>
       </div>
     </div>
+    <div id="confirmation-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span id="close-modal-btn" class="close">&times;</span>
+        <h2>Booking Request Submitted</h2>
+        <p><strong>Photographer:</strong> <span id="modal-photographer"></span></p>
+        <p><strong>From:</strong> <span id="modal-startdate"></span></p>
+        <p><strong>To:</strong> <span id="modal-enddate"></span></p>
+        <div>
+          <p><strong>Description:</strong></p>
+          <div class="message-box">
+            <span id="modal-description"></span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
     function updateTextField(name) {
       document.getElementById('photographer_name').value = name;
     }
 
-
     let currentDate = new Date();
-
-    // Format the current date as YYYY-MM-DD
     let year = currentDate.getFullYear();
     let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
     let day = ("0" + currentDate.getDate()).slice(-2);
-
     let formattedDate = `${year}-${month}-${day}`;
-
-    // Set the min date for both fields to today
     let startDateInput = document.getElementById("startdate");
     let endDateInput = document.getElementById("enddate");
 
     startDateInput.setAttribute("min", formattedDate);
     endDateInput.setAttribute("min", formattedDate);
 
-    // Ensure end date is equal to or after the start date
     startDateInput.addEventListener("change", function() {
       let selectedStartDate = this.value;
       endDateInput.setAttribute("min", selectedStartDate);
+    });
+
+    endDateInput.addEventListener("change", function() {
+      let selectedEndDate = this.value;
+    });
+
+    document.getElementById('booking-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      let formData = new FormData(this);
+
+      fetch('request.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showPopup(data.message, data.data);
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    function showPopup(message, bookingDetails) {
+      document.getElementById('modal-photographer').textContent = bookingDetails.photographer;
+      document.getElementById('modal-startdate').textContent = bookingDetails.startdate;
+      document.getElementById('modal-enddate').textContent = bookingDetails.enddate;
+      document.getElementById('modal-description').textContent = bookingDetails.description;
+      document.getElementById('confirmation-modal').style.display = 'flex';
+    }
+
+    document.getElementById('close-modal-btn').addEventListener('click', function() {
+      document.getElementById('confirmation-modal').style.display = 'none';
     });
   </script>
 </body>

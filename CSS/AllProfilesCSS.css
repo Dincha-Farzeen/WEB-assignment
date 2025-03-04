@@ -161,27 +161,29 @@ li a:active {
   background-color: burlywood;
 }
 
-footer {
-  background-color: #222;
-  color: white;
-  padding: 20px;
-  margin-top: 40px;
-}
-
-.footer-container {
+.footer {
+  width: 100%;
+  margin-top: 10px;
+  height: 130px;
+  background-color: black;
   display: flex;
-  justify-content: space-between;
-  max-width: auto;
-  max-height: fit-content;
+  flex-direction: row;
+  color: white;
+  align-items: center;
 }
 
-.footer-reservedtext {
-  text-align: center;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  font-style: oblique;
-  padding-top: 50px;
+.socials {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-left: 50px;
+  gap: 2px;
 }
 
-.footer-links {
-  font-family: Georgia, "Times New Roman", Times, serif;
+.navigations {
+  padding-left: 50px;
+  display: flex;
+  flex-direction: column;
 }
