@@ -12,44 +12,6 @@ try {
     $avg_rating = 0.0; 
     $ratings = []; 
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'], $_POST['comment'])) {
-        $rating = $_POST['rating'];
-        $comment = $_POST['comment'];
-        $userId = $_SESSION['user_id']; 
-
-        $userQuery = $pdo->prepare("SELECT u_name FROM registered_user WHERE u_id = ?");
-        $userQuery->execute([$userId]);
-        $user = $userQuery->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            $date = date('Y-m-d H:i:s');
-
-            $insertQuery = $pdo->prepare("INSERT INTO reviews (rating, date, comment, u_id) VALUES (?, ?, ?, ?)");
-            $insertQuery->execute([$rating, $date, $comment, $userId]);
-
-            header("Location: review.php");
-            exit();
-        } else {
-            $error = "User not found.";
-        }
-    }
-
-    $orderBy = "date ASC";
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $selectedFilter = $_POST['sortReview'] ?? 'oldest';
-        if ($selectedFilter === 'newest') {
-            $orderBy = "date DESC";
-        }
-    }
-
-    $sql = "SELECT r.rating, r.date, r.comment, u.u_name 
-            FROM reviews r 
-            JOIN registered_user u ON r.u_id = u.u_id 
-            ORDER BY $orderBy";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     $totalQuery = $pdo->query("SELECT COUNT(*) AS total_reviews FROM reviews");
     $total_reviews = $totalQuery->fetch(PDO::FETCH_ASSOC)['total_reviews'];
 
@@ -89,6 +51,108 @@ try {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <title>Reviews</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle review submission
+            $('#reviewForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'check_session.php', // Endpoint to check session status
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.loggedIn) {
+                            // Submit the review if logged in
+                            $.ajax({
+                                url: 'submit_review.php', // Endpoint to handle review submission
+                                method: 'POST',
+                                data: $('#reviewForm').serialize(),
+                                success: function (response) {
+                                    if (response.success) {
+                                        $('#successPopup').fadeIn(); // Show success popup
+                                        loadReviews(); // Reload reviews dynamically
+                                        loadStatistics(); // Reload statistics dynamically
+                                        $('#reviewForm')[0].reset(); // Reset the form
+                                    } else {
+                                        alert(response.message || 'An error occurred.');
+                                    }
+                                },
+                                error: function () {
+                                    alert('An error occurred while submitting the review.');
+                                }
+                            });
+                        } else {
+                            // Show popup if not logged in
+                            $('#loginPopup').fadeIn();
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while checking login status.');
+                    }
+                });
+            });
+
+            // Handle sorting
+            $('#sortForm').on('submit', function (e) {
+                e.preventDefault();
+                loadReviews(); // Reload reviews dynamically with the selected sort order
+            });
+
+            // Function to load reviews dynamically
+            function loadReviews() {
+                $.ajax({
+                    url: 'fetch_reviews.php', // Endpoint to fetch reviews
+                    method: 'POST',
+                    data: $('#sortForm').serialize(), // Send sorting data
+                    success: function (response) {
+                        $('#reviewsContainer').html(response); // Update reviews section
+                    },
+                    error: function () {
+                        alert('An error occurred while loading reviews.');
+                    }
+                });
+            }
+
+            // Function to load statistics dynamically
+            function loadStatistics() {
+                $.ajax({
+                    url: 'fetch_statistics.php', // Endpoint to fetch statistics
+                    method: 'GET',
+                    success: function (response) {
+                        $('#averageRating').text(response.avg_rating);
+                        $('#totalReviews').text(response.total_reviews);
+                        for (let i = 5; i >= 1; i--) {
+                            $(`#star${i}Percentage`).text(response.ratings[i]?.percentage || '0.00%');
+                            $(`#star${i}Count`).text(response.ratings[i]?.count || 0);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while loading statistics.');
+                    }
+                });
+            }
+
+            // Close popup on cancel button click
+            $('#cancelButton').on('click', function () {
+                $('#loginPopup').fadeOut();
+            });
+
+            // Redirect to login page on login button click
+            $('#loginButton').on('click', function () {
+                window.location.href = 'login.php';
+            });
+
+            // Close success popup on OK button click
+            $('#successOkButton').on('click', function () {
+                $('#successPopup').fadeOut();
+            });
+
+            // Initial load of reviews and statistics
+            loadReviews();
+            loadStatistics();
+        });
+    </script>
 </head>
 <style>
     body,
@@ -325,9 +389,65 @@ try {
         display: flex;
         flex-direction: column;
     }
+
+    /* Popup styling */
+    #loginPopup, #successPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        z-index: 1000;
+        text-align: center;
+    }
+
+    #loginPopup button, #successPopup button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #cancelButton {
+        background-color: #f44336;
+        color: white;
+    }
+
+    #loginButton, #successOkButton {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    #popupOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
 </style>
 
 <body>
+    <div id="popupOverlay"></div>
+    <div id="loginPopup">
+        <p>You need to login before leaving a review.</p>
+        <button id="cancelButton">Cancel</button>
+        <button id="loginButton">Login</button>
+    </div>
+    <div id="successPopup" style="display: none;">
+        <p>Your review has been submitted successfully!</p>
+        <button id="successOkButton">OK</button>
+    </div>
     <nav>
         <a class="homeactive">Home</a>
         <a href="booking.php">Book Now</a>
@@ -351,19 +471,10 @@ try {
     <div
         style="display: flex; flex-direction: row; justify-content: space-evenly">
         <div class="review-box">
-            <p style="font-weight: 700; font-size: 20px; margin-left: 10px">
-                Reviews
-            </p>
+            <p style="font-weight: 700; font-size: 20px; margin-left: 10px">Reviews</p>
             <div>
                 <div style="text-align: center; margin-top: 20px">
-                    <p
-                        style="
-                font-size: 60px;
-                margin-top: -10px;
-                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
-                  sans-serif;
-                display: inline;
-              ">
+                    <p style="font-size: 60px; margin-top: -10px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; display: inline;" id="averageRating">
                         <?php echo $avg_rating; ?>
                     </p>
                     <p style="display: inline">out of 5</p>
@@ -385,10 +496,10 @@ try {
                         <span class="material-icons" style="font-size: 20px; margin-left: 10px">star</span>
                     <?php endfor; ?>
                     <p style="display: inline">
-                        <b style="font-size: 20px; margin-left: 13px">
+                        <b style="font-size: 20px; margin-left: 13px" id="star<?php echo $i; ?>Percentage">
                             <?php echo $ratings[$i]['percentage'] ?? '0.00%'; ?>
                         </b>
-                        (<?php echo $ratings[$i]['count'] ?? 0; ?> reviews)
+                        (<span id="star<?php echo $i; ?>Count"><?php echo $ratings[$i]['count'] ?? 0; ?></span> reviews)
                     </p>
                 </div>
             <?php endfor; ?>
@@ -396,33 +507,18 @@ try {
 
     </div>
     <div class="review-container">
-        <div class="filter-container">
-            <div style="font-size: 20px;">FILTER REVIEWS</div>
-            <form action="" method="POST">
+        <form id="sortForm" action="" method="POST">
+            <div class="filter-container">
+                <div style="font-size: 20px;">FILTER REVIEWS</div>
                 <select name="sortReview" class="dropdown">
                     <option value="oldest" class="dropdown-option">Oldest First</option>
                     <option value="newest" class="dropdown-option">Newest First</option>
                 </select>
                 <input type="submit" value="Sort">
-            </form>
-        </div>
-        <div class="display-review">
-            <?php if (isset($error)): ?>
-                <p style="color: red; font-weight: bold;"><?php echo $error; ?></p>
-            <?php elseif (isset($reviews) && count($reviews) > 0): ?>
-                <?php foreach ($reviews as $review): ?>
-                    <div class="reviews">
-                        <div style="display: flex; flex-direction: column; gap: 7px">
-                            <div><b>Name:</b> <?php echo htmlspecialchars($review['u_name']); ?></div>
-                            <div><b>Date:</b> <?php echo htmlspecialchars($review['date']); ?></div>
-                            <div><b>Review:</b><?php echo str_repeat('<span class="material-icons">star</span>', htmlspecialchars($review['rating'])); ?></div>
-                        </div>
-                        <div class="comment-section"><q><?php echo htmlspecialchars($review['comment']); ?></q></div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No reviews available.</p>
-            <?php endif; ?>
+            </div>
+        </form>
+        <div id="reviewsContainer" class="display-review">
+            <!-- Reviews will be dynamically loaded here -->
         </div>
     </div>
     <div class="submitreview-container">
@@ -431,7 +527,7 @@ try {
             <div style="width: 500px; height: auto; margin-top: 30px;">Leave a review and get featured on our page instantly! Don't forget to give us your best comments!</div>
         </div>
         <div>
-            <form action="" method="POST">
+            <form id="reviewForm" action="" method="POST">
                 <div class="leavereview-container">
                     <label for="rating">Rating:</label>
                     <select name="rating" id="rating" class="dropdown">
