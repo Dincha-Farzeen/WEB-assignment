@@ -54,70 +54,64 @@ try {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Handle review submission
             $('#reviewForm').on('submit', function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url: 'check_session.php', // Endpoint to check session status
+                    url: 'check_session.php',
                     method: 'POST',
                     dataType: 'json',
                     success: function (response) {
                         if (response.loggedIn) {
-                            // Submit the review if logged in
                             $.ajax({
-                                url: 'submit_review.php', // Endpoint to handle review submission
+                                url: 'submit_review.php',
                                 method: 'POST',
                                 data: $('#reviewForm').serialize(),
                                 success: function (response) {
                                     if (response.success) {
-                                        $('#successPopup').fadeIn(); // Show success popup
-                                        loadReviews(); // Reload reviews dynamically
-                                        loadStatistics(); // Reload statistics dynamically
-                                        $('#reviewForm')[0].reset(); // Reset the form
+                                        $('#successPopup').fadeIn();
+                                        loadReviews(); 
+                                        loadStatistics(); 
+                                        $('#reviewForm')[0].reset();
                                     } else {
-                                        alert(response.message || 'An error occurred.');
+                                        showError(response.message);
                                     }
                                 },
                                 error: function () {
-                                    alert('An error occurred while submitting the review.');
+                                    showError('An error occurred while submitting the review.');
                                 }
                             });
                         } else {
-                            // Show popup if not logged in
                             $('#loginPopup').fadeIn();
                         }
                     },
                     error: function () {
-                        alert('An error occurred while checking login status.');
+                        showError('An error occurred while checking login status.');
                     }
                 });
             });
 
-            // Handle sorting
             $('#sortForm').on('submit', function (e) {
                 e.preventDefault();
-                loadReviews(); // Reload reviews dynamically with the selected sort order
-            });
+                loadReviews();
+            }); 
 
-            // Function to load reviews dynamically
             function loadReviews() {
                 $.ajax({
-                    url: 'fetch_reviews.php', // Endpoint to fetch reviews
+                    url: 'fetch_reviews.php',
                     method: 'POST',
-                    data: $('#sortForm').serialize(), // Send sorting data
+                    data: $('#sortForm').serialize(),
                     success: function (response) {
-                        $('#reviewsContainer').html(response); // Update reviews section
+                        $('#reviewsContainer').html(response); 
                     },
                     error: function () {
-                        alert('An error occurred while loading reviews.');
+                        showError('An error occurred while loading reviews.');
                     }
                 });
             }
 
-            // Function to load statistics dynamically
             function loadStatistics() {
                 $.ajax({
-                    url: 'fetch_statistics.php', // Endpoint to fetch statistics
+                    url: 'fetch_statistics.php', 
                     method: 'GET',
                     success: function (response) {
                         $('#averageRating').text(response.avg_rating);
@@ -128,27 +122,32 @@ try {
                         }
                     },
                     error: function () {
-                        alert('An error occurred while loading statistics.');
+                        showError('An error occurred while loading statistics.');
                     }
                 });
             }
 
-            // Close popup on cancel button click
+            function showError(message) {
+                $('#errorBoxMessage').text(message);
+                $('#errorBox').fadeIn();
+            }
+
+            $('#errorCloseButton').on('click', function () {
+                $('#errorBox').fadeOut();
+            });
+
             $('#cancelButton').on('click', function () {
                 $('#loginPopup').fadeOut();
             });
 
-            // Redirect to login page on login button click
             $('#loginButton').on('click', function () {
                 window.location.href = 'login.php';
             });
 
-            // Close success popup on OK button click
             $('#successOkButton').on('click', function () {
                 $('#successPopup').fadeOut();
             });
 
-            // Initial load of reviews and statistics
             loadReviews();
             loadStatistics();
         });
@@ -391,7 +390,7 @@ try {
     }
 
     /* Popup styling */
-    #loginPopup, #successPopup {
+    #loginPopup, #successPopup, #errorBox {
         display: none;
         position: fixed;
         top: 50%;
@@ -407,7 +406,7 @@ try {
         text-align: center;
     }
 
-    #loginPopup button, #successPopup button {
+    #loginPopup button, #successPopup button, #errorBox button {
         margin: 10px;
         padding: 10px 20px;
         border: none;
@@ -423,6 +422,20 @@ try {
     #loginButton, #successOkButton {
         background-color: #4CAF50;
         color: white;
+    }
+
+    #errorBox {
+        background-color: white;
+        color: black;
+        border: 1px solid #ddd;
+    }
+
+    #errorCloseButton {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        font-weight: bold;
     }
 
     #popupOverlay {
@@ -447,6 +460,10 @@ try {
     <div id="successPopup" style="display: none;">
         <p>Your review has been submitted successfully!</p>
         <button id="successOkButton">OK</button>
+    </div>
+    <div id="errorBox" style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); width: 300px; background-color: white; color: black; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: center; z-index: 1000;">
+        <span id="errorCloseButton" style="position: absolute; top: 5px; right: 10px; cursor: pointer; font-weight: bold;">&times;</span>
+        <p id="errorBoxMessage" style="margin: 0;"></p>
     </div>
     <nav>
         <a class="homeactive">Home</a>

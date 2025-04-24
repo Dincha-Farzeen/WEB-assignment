@@ -52,6 +52,9 @@ $conn = null;
       margin: 0;
       padding: 0;
       height: 100%;
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      font-size:14px;
     }
 
     .background {
@@ -68,14 +71,14 @@ $conn = null;
 
     .content {
       flex: 1;
-      /* Takes up the remaining space */
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 10px;
-      background-color: rgba(101, 67, 33, 0.438);
+      background-color: rgba(70, 43, 16, 0.39);
       overflow-y: scroll;
+ 
     }
 
     .form-container {
@@ -101,10 +104,10 @@ $conn = null;
       margin-top: 30px;
       font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      background-color: rgb(101, 67, 33);
+      background-color: rgb(88, 67, 48);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 20px;
       cursor: pointer;
       font-size: 95%;
       transition: all 0.3s ease;
@@ -134,6 +137,7 @@ $conn = null;
       margin: 5px;
       font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        font-size:12px;
     }
 
     input[type="text"]:focus,
@@ -169,14 +173,14 @@ $conn = null;
 
     a {
       width: auto;
-      padding: 5px;
+      padding: 8px;
       margin-top: 30px;
       font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      background-color: rgb(101, 67, 33);
+      background-color: rgb(88, 67, 48);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 20px;
       cursor: pointer;
       font-size: 80%;
       transition: all 0.3s ease;
@@ -186,6 +190,7 @@ $conn = null;
       align-self: flex-end;
       text-decoration: none;
     }
+
 
     a:hover {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -227,10 +232,10 @@ $conn = null;
       margin-top: 30px;
       font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      background-color: rgb(101, 67, 33);
+      background-color: rgb(88, 67, 48);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 20px;
       cursor: pointer;
       font-size: 95%;
       transition: all 0.3s ease;
@@ -303,7 +308,8 @@ $conn = null;
         <p>
           <strong>E-mail:</strong> <?php echo htmlspecialchars($user['u_email']); ?> <br>
           <strong> Number:</strong> <?php echo htmlspecialchars($user['u_phoneNum']); ?> <br>
-          <i>In case of any discrepencies, please update your information<br>
+          <br>
+          <i style="font-size: 14px; text-decoration:italic;">In case of any discrepencies, please update your information<br>
           and come back again to continue booking.</i>
         </p>
         <a href="myAccount.php">Go to account settings</a></a>
@@ -330,15 +336,20 @@ $conn = null;
 
           <div style="display:flex; flex-direction:row; align-items:center; width:85%; overflow:hidden;">
             <label for='date'>From</label>
-            <input type='date' id='startdate' name='startdate' style="margin-right:30px;" required>
+            <input type='date' id='startdate' name='startdate' style="margin-left:10px;" required>
 
-            <label for='date'>To</label>
-            <input type='date' id='enddate' name='enddate' style="margin-right:30px;" required>
+            <label style="margin-left:20px;" for='date'>To</label>
+            <input type='date' id='enddate' name='enddate' style="margin-left:10px;" required>
           </div>
 
           <div style="display:flex; flex-direction:row; align-items:center; width:85%;">
             <label for='descr'>Event Description</label>
             <textarea id='descr' name='descr' required></textarea>
+          </div>
+
+          <div style="display:flex; flex-direction:row; align-items:center; width:85%; ">
+            <label for='location'>Location</label>
+            <input style="margin-left:50px;" type="text" id='location' name='location' required></input>
           </div>
 
           <div style="display:flex;justify-content:space-between;width:80%;">
@@ -355,6 +366,7 @@ $conn = null;
         <p><strong>Photographer:</strong> <span id="modal-photographer"></span></p>
         <p><strong>From:</strong> <span id="modal-startdate"></span></p>
         <p><strong>To:</strong> <span id="modal-enddate"></span></p>
+        <p><strong>Location:</strong> <span id="modal-location"></span></p>
         <div>
           <p><strong>Description:</strong></p>
           <div class="message-box">
@@ -413,11 +425,13 @@ $conn = null;
       document.getElementById('modal-startdate').textContent = bookingDetails.startdate;
       document.getElementById('modal-enddate').textContent = bookingDetails.enddate;
       document.getElementById('modal-description').textContent = bookingDetails.description;
+      document.getElementById('modal-location').textContent = bookingDetails.location;
       document.getElementById('confirmation-modal').style.display = 'flex';
     }
 
     document.getElementById('close-modal-btn').addEventListener('click', function() {
       document.getElementById('confirmation-modal').style.display = 'none';
+      window.location.reload();
     });
   </script>
 </body>

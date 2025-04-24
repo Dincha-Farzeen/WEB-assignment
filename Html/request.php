@@ -21,14 +21,15 @@ try {
     $startdate = $_POST['startdate'] ?? '';
     $enddate = $_POST['enddate'] ?? '';
     $description = filter_var(trim($_POST['descr'] ?? ''), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $location = filter_var(trim($_POST['location'] ?? ''), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    if (empty($photographer) || empty($startdate) || empty($enddate) || empty($description)) {
+    if (empty($photographer) || empty($startdate) || empty($enddate) || empty($description) || empty($location)) {
         echo json_encode(['success' => false, 'message' => 'All fields are required']);
         exit();
     }
 
-    $sql = "INSERT INTO requests (user_id, photographer_name, startdate, enddate, description) 
-            VALUES (:user_id, :photographer, :startdate, :enddate, :description)";
+    $sql = "INSERT INTO requests (user_id, photographer_name, startdate, enddate, description, location) 
+            VALUES (:user_id, :photographer, :startdate, :enddate, :description, :location)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -36,7 +37,8 @@ try {
         ':photographer' => $photographer,
         ':startdate' => $startdate,
         ':enddate' => $enddate,
-        ':description' => $description
+        ':description' => $description,
+        ':location' => $location,
     ]);
 
     echo json_encode([
@@ -46,7 +48,8 @@ try {
             'photographer' => $photographer,
             'startdate' => $startdate,
             'enddate' => $enddate,
-            'description' => $description
+            'description' => $description,
+            'location' => $location
         ]
     ]);
 } catch (PDOException $e) {
