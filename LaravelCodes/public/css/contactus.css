@@ -1,0 +1,110 @@
+body,
+html {
+  margin: 0;
+}
+
+.navigation-bar {
+  list-style-type: none;
+  margin-top: 8px;
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  /*Customize the navigation*/
+  margin: 0 30px;
+}
+
+li a {
+  /*Customize the navigation*/
+  display: block;
+  padding: 10px 30px;
+  border-radius: 40px;
+  background-color: transparent;
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+li a:hover {
+  /*customize the navigation when hovering*/
+  background-color: aliceblue;
+}
+
+li a:active {
+  transform: scale(1.001);
+  background-color: rgb(215, 224, 231);
+}
+
+.image {
+  height: 100vh;
+  width: auto;
+  background-image: url("../Html/contactus.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: 10px;
+  background-position: right;
+}
+
+.container {
+  height: 240px;
+  width: 60%;
+  margin: 70px 0 0 250px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(246, 246, 236);
+  padding: 20px;
+  border-radius: 20px;
+  align-content: center;
+  justify-content: center;
+}
+
+.email-button {
+  width: 90px;
+  padding: 10px 0 10px 0;
+  border-radius: 20px;
+  background-color: rgb(255, 102, 0);
+  text-decoration: none;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin-top: 20px;
+  align-self: center;
+  text-align: center;
+  color: aliceblue;
+}
+
+.footer {
+  width: 100%;
+  height: 130px;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+}
+
+.socials {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-left: 50px;
+  gap: 2px;
+}
+
+.navigations {
+  padding-left: 50px;
+  display: flex;
+  flex-direction: column;
+}

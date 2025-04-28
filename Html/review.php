@@ -35,8 +35,8 @@ try {
     error_log("Database error: " . $e->getMessage());
     $error = "Database error: " . $e->getMessage();
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,64 +54,111 @@ try {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
+            
             $('#reviewForm').on('submit', function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url: 'check_session.php',
+                    url: 'check_session.php', //endpoint to check session status
                     method: 'POST',
                     dataType: 'json',
                     success: function (response) {
                         if (response.loggedIn) {
-                            $.ajax({
-                                url: 'submit_review.php',
-                                method: 'POST',
-                                data: $('#reviewForm').serialize(),
-                                success: function (response) {
-                                    if (response.success) {
-                                        $('#successPopup').fadeIn();
-                                        loadReviews(); 
-                                        loadStatistics(); 
-                                        $('#reviewForm')[0].reset();
-                                    } else {
-                                        showError(response.message);
-                                    }
-                                },
-                                error: function () {
-                                    showError('An error occurred while submitting the review.');
-                                }
+
+                            //submit the review if logged in
+                            fetch('/assignment/Html/webservices/restHandler.php?request=review', {   //mini api to get reviews in json
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'   //content sent is json
+                            },
+                            body: JSON.stringify({                          //converts data into a JSON string
+                                    u_id: $('#reviewForm [name=u_id]').val(),
+                                    rating: $('#reviewForm [name=rating]').val(),
+                                    comment: $('#reviewForm [name=comment]').val()
+                                })
+
+                            })
+                            .then((res) => {
+                            if (!res.ok) {
+                               
+                                throw new Error(`Server returned ${res.status}`);
+                            }
+                            return res.json();          // parse JSON response
+                            })
+                            .then((response) => {
+                            if (response.success) {
+                                $('#successPopup').fadeIn();  //display attribute was none and display message
+                                loadReviews();
+                                loadStatistics();
+                                document.getElementById('reviewForm').reset();
+                            } else {
+                                alert(response.message || 'An error occurred.');
+                            }
+                            })
+                            .catch((err) => {
+                            console.error('Fetch error:', err);
+                            alert('An error occurred while submitting the review.');
                             });
                         } else {
+                            // Show popup if not logged in
                             $('#loginPopup').fadeIn();
                         }
                     },
                     error: function () {
-                        showError('An error occurred while checking login status.');
+                        alert('An error occurred while checking login status.');
                     }
                 });
             });
 
+            //handle sorting
             $('#sortForm').on('submit', function (e) {
                 e.preventDefault();
-                loadReviews();
-            }); 
+                loadReviews(); //reload reviews dynamically with the selected sort order
+            });
 
+            //load reviews dynamically
             function loadReviews() {
                 $.ajax({
-                    url: 'fetch_reviews.php',
-                    method: 'POST',
-                    data: $('#sortForm').serialize(),
+                    url: '/assignment/Html/webservices/restHandler.php?request=review', //endpoint to fetch reviews
+                    method: 'GET',
+                    data: $('#sortForm').serialize(), //Turn them into a URL-encoded string and send in the request.
                     success: function (response) {
-                        $('#reviewsContainer').html(response); 
+                        console.log("returning: ", response);
+                        $('#reviewsContainer').empty();
+
+                        $.each(response, function(_, review) {
+                            const $review = $('<div>').addClass('reviews');
+
+                            const $info   = $('<div>').css({
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '7px'
+                            });
+                            $info.append($('<div>').html('<b>Name:</b> ').append(review.u_name));
+                            $info.append($('<div>').html('<b>Date:</b> ').append(review.date));
+
+                            // stars
+                            const $stars = $('<div>').html('<b>Review:</b> ');
+                            for (let i = 0; i < review.rating; i++) {
+                            $stars.append('<span class="material-icons">star</span>');
+                            }
+                            $info.append($stars);
+
+                            $review.append($info);
+                            $review.append($('<div>').addClass('comment-section').html('"'+review.comment+'"'));
+                            
+                            $('#reviewsContainer').append($review);
+                        });
                     },
                     error: function () {
-                        showError('An error occurred while loading reviews.');
+                        alert('An error occurred while loading reviews.');
                     }
                 });
             }
 
+            // Function to load statistics dynamically
             function loadStatistics() {
                 $.ajax({
-                    url: 'fetch_statistics.php', 
+                    url: 'fetch_statistics.php', // Endpoint to fetch statistics
                     method: 'GET',
                     success: function (response) {
                         $('#averageRating').text(response.avg_rating);
@@ -122,32 +169,27 @@ try {
                         }
                     },
                     error: function () {
-                        showError('An error occurred while loading statistics.');
+                        alert('An error occurred while loading statistics.');
                     }
                 });
             }
 
-            function showError(message) {
-                $('#errorBoxMessage').text(message);
-                $('#errorBox').fadeIn();
-            }
-
-            $('#errorCloseButton').on('click', function () {
-                $('#errorBox').fadeOut();
-            });
-
+            // Close popup on cancel button click
             $('#cancelButton').on('click', function () {
                 $('#loginPopup').fadeOut();
             });
 
+            // Redirect to login page on login button click
             $('#loginButton').on('click', function () {
                 window.location.href = 'login.php';
             });
 
+            // Close success popup on OK button click
             $('#successOkButton').on('click', function () {
                 $('#successPopup').fadeOut();
             });
 
+            // Initial load of reviews and statistics
             loadReviews();
             loadStatistics();
         });
@@ -390,7 +432,7 @@ try {
     }
 
     /* Popup styling */
-    #loginPopup, #successPopup, #errorBox {
+    #loginPopup, #successPopup {
         display: none;
         position: fixed;
         top: 50%;
@@ -406,7 +448,7 @@ try {
         text-align: center;
     }
 
-    #loginPopup button, #successPopup button, #errorBox button {
+    #loginPopup button, #successPopup button {
         margin: 10px;
         padding: 10px 20px;
         border: none;
@@ -422,20 +464,6 @@ try {
     #loginButton, #successOkButton {
         background-color: #4CAF50;
         color: white;
-    }
-
-    #errorBox {
-        background-color: white;
-        color: black;
-        border: 1px solid #ddd;
-    }
-
-    #errorCloseButton {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        cursor: pointer;
-        font-weight: bold;
     }
 
     #popupOverlay {
@@ -461,12 +489,8 @@ try {
         <p>Your review has been submitted successfully!</p>
         <button id="successOkButton">OK</button>
     </div>
-    <div id="errorBox" style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); width: 300px; background-color: white; color: black; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: center; z-index: 1000;">
-        <span id="errorCloseButton" style="position: absolute; top: 5px; right: 10px; cursor: pointer; font-weight: bold;">&times;</span>
-        <p id="errorBoxMessage" style="margin: 0;"></p>
-    </div>
     <nav>
-        <a class="homeactive">Home</a>
+        <a class="homeactive" href="homepage.html">Home</a>
         <a href="booking.php">Book Now</a>
         <a class="reviewactive" href="review.php">Reviews</a>
         <a href="about.html">About Us</a>
@@ -546,6 +570,7 @@ try {
         <div>
             <form id="reviewForm" action="" method="POST">
                 <div class="leavereview-container">
+                    <input type="hidden" name="u_id" value="<?php echo $_SESSION['user_id']; ?>">
                     <label for="rating">Rating:</label>
                     <select name="rating" id="rating" class="dropdown">
                         <option value="1" class="dropdown-option">1</option>
@@ -614,3 +639,4 @@ try {
 </body>
 
 </html>
+

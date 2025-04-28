@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+    $user_name = $_SESSION['user_name'];
 
     $dsn = "mysql:host=localhost;dbname=photography_collective";
     $username = 'root';  
@@ -42,7 +44,7 @@
     $stmt->execute();
     $totalBookingCount = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $sql = "SELECT COUNT(*) AS count
+    $sql = "SELECT COUNT(DISTINCT(b.booking_id)) AS count
             FROM booking b
             JOIN booking_dates bd ON b.booking_id = bd.booking_id
             WHERE MONTH(bd.booking_date) = MONTH(CURDATE()) 
@@ -65,7 +67,7 @@
         <link rel="stylesheet" href="../css/admin.css">
         <style>
             .main-content {
-                margin-left: 250px;
+                margin-left: 200px;
                 flex: 1;
                 padding: 20px;
             }
@@ -247,12 +249,12 @@
             <div class="menu">
                 <a href="#" class="active"><i class="fas fa-calendar-alt"></i> Bookings</a>
                 <a href="requestsDashboard.php"><i class="fas fa-envelope"></i> Requests</a>
-                <a href="homepage.html"><i class="fa-solid fa-house-user"></i> Home</a>
+                <a href="homepage.html"><i class="fa-solid fa-house"></i> Home</a>
             </div>
         </div>
         <div class="main-content">
             <div class="header">
-                <h2>Welcome to Dashboard</h2>
+                <h2>Welcome to Dashboard, <?php echo htmlspecialchars($user_name); ?>.</h2>
             </div>
             <div class="stats">
                 <div class="stat-box">
@@ -408,27 +410,27 @@
             });
 
             $('#btn-save').on('click', function(){
-            const payload = {
-                bookingid:   $('#edit-booking-id').val(),
-                location:    $('#edit-location').val(),
-                description: $('#edit-description').val(),
-                price:       $('#edit-price').val()
-            };
+                const payload = {
+                    bookingid:   parseInt($('#edit-booking-id').val(), 10), // Parse as integer to match json schema
+                    location:    $('#edit-location').val(),
+                    description: $('#edit-description').val(),
+                    price:       parseFloat($('#edit-price').val()) // Parse as float
+                };
 
             $.ajax({
                 url: 'editBooking.php',    
                 type: 'POST',
+                contentType: 'application/json',
                 dataType: 'json',           // expect JSON back
-                data: payload,
+                data: JSON.stringify(payload),
                 success: function(resp){
                     if (resp.success) {
-                        
-                    // Update the row 
-                    var $row = $('#bookingTable')
-                                .find('tr[data-booking-id="'+payload.bookingid+'"]');
-                    $row.find('.col-location').text(payload.location);
-                    $row.find('.col-description').text(payload.description);
-                    $row.find('.col-price').text(payload.price);
+
+                        // Update the row 
+                        var $row = $('#bookingTable').find('tr[data-booking-id="'+payload.bookingid+'"]');
+                        $row.find('.col-location').text(payload.location);
+                        $row.find('.col-description').text(payload.description);
+                        $row.find('.col-price').text(payload.price);
 
                     // hide the modal
                     $('#edit-modal').fadeOut();

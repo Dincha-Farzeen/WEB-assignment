@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /assignment/Html/
+
+# Route /api/reviews to your PHP handler, keeping ?sortReview=…
+RewriteRule ^api/reviews$ webservices-fetch_reviews/fetch_reviews.php [L,QSA]

@@ -50,13 +50,13 @@ if (isset($_POST['submit'])) {
                 header("Location: login.php");
                 exit();
             } else {
-                echo "Error: " . $stmt->error;
+                echo "Error: " . implode(", ", $stmt->errorInfo());
             }
 
-            $stmt->close();
+            unset($stmt);
 
         } else {
-            echo "Error preparing the statement: " . $conn->error;
+            echo "Error preparing the statement: " . implode(", ", $conn->errorInfo());
         }
     } else {
         

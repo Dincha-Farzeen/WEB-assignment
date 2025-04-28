@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "EditBookingPayload",
+    "type": "object",
+    "properties": {
+      "bookingid":   { "type": "integer" },
+      "location":    { "type": "string",  "minLength": 1 },
+      "description": { "type": "string",  "minLength": 1 },
+      "price":       { "type": "number",  "minimum": 0 }
+    },
+    "required": ["bookingid","location","description","price"]
+  }
+  

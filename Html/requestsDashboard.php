@@ -1,4 +1,8 @@
 <?php
+
+    session_start();
+    $user_name = $_SESSION['user_name'];
+
     $dsn = "mysql:host=localhost;dbname=photography_collective";
     $username = 'root';  
     $password = '';      
@@ -118,7 +122,7 @@
         }
 
         .booking-table, .booking-table th, .booking-table td {
-            border: 1px solid #ddd;
+            border: 0px solid #ddd;
             text-align: center;
             padding: 8px;   
             font-size: 15px;  
@@ -218,13 +222,13 @@
         <div class="menu">
             <a href="bookingsDashboard.php"><i class="fas fa-calendar-alt"></i> Bookings</a>
             <a href="requestsDashboard.php" class="active"><i class="fas fa-envelope"></i> Requests</a>
-            <a href="#"><i class="fas fa-users"></i> List of Customers</a>
+            <a href="homepage.html"><i class="fa-solid fa-house"></i> Home</a>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header">
-            <h2>Welcome to Dashboard</h2>
+             <h2>Welcome to Dashboard, <?php echo htmlspecialchars($user_name); ?>.</h2>
         </div>
 
         <div class="tables">
@@ -239,6 +243,8 @@
                         <th>Location</th>
                         <th>Description</th>
                         <th>Photographer(s)</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <?php foreach ($requests as $request): 
                         $startdate = new DateTime($request['startdate']);
@@ -246,23 +252,13 @@
                     
                         $formattedStartdate = $startdate->format('d/m/y');
                         $formattedEnddate = $enddate->format('d/m/y');?>
-                        <tr>
+                        <tr id="row-<?php echo $request['request_id']; ?>">
                             <td><?php echo htmlspecialchars($formattedStartdate); ?></td>
                             <td><?php echo htmlspecialchars($formattedEnddate); ?></td>
                             <td><?php echo htmlspecialchars($request['u_name']); ?></td>
                             <td><?php echo htmlspecialchars($request['location']); ?></td>
                             <td><?php echo htmlspecialchars($request['description']); ?></td>
                             <td><?php echo htmlspecialchars($request['photographer_name']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <table id="table" class="booking-table" style="width:20%;">
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <?php foreach ($requests as $request): ?>
-                        <tr id="row-<?php echo $request['request_id']; ?>">
                             <td><button 
                                 class="accept-btn"
                                 data-id="<?php echo $request['request_id']; ?>"
@@ -416,6 +412,12 @@
        
             $.getJSON('getBookedDates.php')
             .done(function(data) {
+                if (data.success === false) {
+                    console.error("Validation failed:", data.message);
+                    console.table(data.errors); // See detailed schema errors
+                    alert("Error loading booked dates. Please try again later.");
+                    return;
+                }
                 bookedPhotographers = data;
                 
                 

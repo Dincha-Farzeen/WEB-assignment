@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Homepage</title>
+</head>
+
+<body>
+    <div class="background">
+        <nav>
+            <a class="homeactive">Home</a>
+            <a href="{{ url('/booking') }}">Book Now</a>
+            <a href="{{ url('/review') }}">Reviews</a>
+            <a href="{{ url('/about') }}">About Us</a>
+            <a href="{{ url('/login') }}">Log In/Sign Up</a>
+            <a href="{{ url('/myAccount') }}">My Profile</a>
+        </nav>
+
+        <div class="image" alt="equipment picture">
+            <div class="rectangle">
+                <div class="left-container">
+                    <div class="heading">PHOTOGRAPHY COLLECTIVE</div>
+                    <div class="small-paragraph">
+                        Discover the artistry of a dynamic team of seven passionate photographers,
+                        each with a unique eye for capturing life's most treasured moments. Explore their stunning
+                        portfolios to find the photographer whose style resonates with your vision, and let us help
+                        you turn your special moments into timeless memories.
+                    </div>
+                    <div class="button-box">
+                        <div class="button"><a href="{{ url('/all-profiles') }}">Browse Our Photographers</a></div>
+                        <div class="button"><a href="{{ url('/contact') }}">Let Us Hear From You</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

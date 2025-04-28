@@ -31,26 +31,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['reset_email'])) {
     $sql = "SELECT * FROM registered_user WHERE u_email = :email";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':email', $email);
-
     $stmt->execute();
-
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
       if (password_verify($password, $user['pass_word'])) {
-        $_SESSION['user_id'] = $user['u_id'];   // Store the user ID as fetched from database
+        $_SESSION['user_id'] = $user['u_id'];  
         header("Location: homepage.html");
         exit();
       } else {
         $error = 'Invalid email or password.';
       }
+    }  
+
+    $sql = "SELECT * FROM admin WHERE a_email = :email";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$admin) {
+      $error = 'No admin found with the provided email.';
     } else {
-      $error = 'No user found with the provided email.';
+      if (password_verify($password, $admin['password'])) {
+        $_SESSION['user_id'] = $admin['a_id'];
+        $_SESSION['user_name'] = $admin['a_name'];
+        header("Location: bookingsDashboard.php");
+        exit();
+      } else {
+        $error = 'Invalid email or password.';
+      }
     }
   }
 }
 
-// Handle password reset
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_email'])) {
   $reset_email = $_POST['reset_email'];
   $new_password = $_POST['new_password'];
@@ -274,115 +287,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_email'])) {
     .forget-password a:hover {
       text-decoration: underline;
     }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      animation: slideIn 0.3s ease-out;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: flex;
-      margin-bottom: 5px;
-    }
-
-    .form-group input[type="email"],
-    .form-group input[type="password"] {
-      width: 90%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .form-group input[type="submit"] {
-      width: 35%;
-      padding: 10px;
-      background-color: #008080;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-left: 110px;
-    }
-
-    .form-group input[type="submit"]:hover {
-      background-color: #006666;
-    }
-
-    .success-message {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: rgb(56, 157, 60);
-      color: white;
-      padding: 15px;
-      border-radius: 5px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      animation: fadeInOut 3s ease-in-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeInOut {
-
-      0%,
-      100% {
-        opacity: 0;
-      }
-
-      50% {
-        opacity: 1;
-      }
-    }
   </style>
 </head>
 
@@ -454,7 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_email'])) {
               <input type="password" id="pass_word" name="password" placeholder="Password" required />
             </div>
             <div class="forget-password">
-              <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+              <a href="Forgetpassword.php">Forgot Password?</a>
             </div>
             <input type="submit" value="Log In" />
           </form>
@@ -465,81 +369,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_email'])) {
       </div>
     </div>
   </div>
-
-  <div id="forgotPasswordModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Reset your Password</h2>
-      <form id="forgotPasswordForm" action="login.php" method="post">
-        <div class="form-group">
-          <label for="reset_email">Email:</label>
-          <input type="email" id="reset_email" name="reset_email" required>
-        </div>
-        <div class="form-group">
-          <label for="new_password">New Password:</label>
-          <input type="password" id="new_password" name="new_password" required>
-        </div>
-        <div class="form-group">
-          <label for="confirm_password">Confirm Password:</label>
-          <input type="password" id="confirm_password" name="confirm_password" required>
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Reset Password">
-        </div>
-        <div id="passwordError" style="color: red; display: none;">Passwords do not match!</div>
-        <input type="hidden" id="successFlag" value="<?php echo $success ? 'true' : 'false'; ?>">
-      </form>
-    </div>
-  </div>
-  <div id="successMessage" class="success-message" style="display: none;">
-    Password has been reset successfully!
-  </div>
-
-  <script>
-    var modal = document.getElementById("forgotPasswordModal");
-
-    var link = document.getElementById("forgotPasswordLink");
-
-    var span = document.getElementsByClassName("close")[0];
-
-    var successMessage = document.getElementById("successMessage");
-
-    var successFlag = document.getElementById("successFlag").value;
-
-    link.onclick = function(event) {
-      event.preventDefault();
-      modal.style.display = "flex";
-    }
-
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-
-    document.getElementById("forgotPasswordForm").onsubmit = function(event) {
-      var newPassword = document.getElementById("new_password").value;
-      var confirmPassword = document.getElementById("confirm_password").value;
-
-      if (newPassword !== confirmPassword) {
-        event.preventDefault();
-        document.getElementById("passwordError").style.display = "block";
-      } else {
-        document.getElementById("passwordError").style.display = "none";
-      }
-    }
-
-    if (successFlag === 'true') {
-      successMessage.style.display = "block";
-      setTimeout(function() {
-        successMessage.style.display = "none";
-      }, 3000);
-    }
-  </script>
 </body>
 
 </html>
