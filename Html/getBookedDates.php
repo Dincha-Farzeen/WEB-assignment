@@ -24,7 +24,7 @@
         $stmt = $conn->query($sql);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $data = json_decode(json_encode($results));  // converts from array of array to array of objects. works with opi
+        $data = json_decode(json_encode($results));  // converts from array of array to array of objects. works with api
 
         // Load schema
         $schemaData = file_get_contents('../Schemas/bookedDatesSchema.json');

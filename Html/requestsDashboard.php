@@ -14,7 +14,7 @@
         echo "Database connection failed: " . $e->getMessage();
     }       
 
-    $sql = "SELECT description,photographer_name,u_name,startdate,enddate,location,u_email,request_id
+    $sql = "SELECT description,photographer_name,u_name,startdate,enddate,location  ,u_email,request_id
             FROM requests r
             JOIN registered_user u ON r.user_id = u.u_id"; 
 

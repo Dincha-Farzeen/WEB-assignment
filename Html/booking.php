@@ -52,9 +52,8 @@ $conn = null;
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      font-size:14px;
+      font-family:font-family: Arial, Helvetica, sans-serif;
+      font-size:17px;
     }
 
     .background {
@@ -309,7 +308,7 @@ $conn = null;
           <strong>E-mail:</strong> <?php echo htmlspecialchars($user['u_email']); ?> <br>
           <strong> Number:</strong> <?php echo htmlspecialchars($user['u_phoneNum']); ?> <br>
           <br>
-          <i style="font-size: 14px; text-decoration:italic;">In case of any discrepencies, please update your information<br>
+          <i style="font-size: 16px; text-decoration:italic;">In case of any discrepencies, please update your information<br>
           and come back again to continue booking.</i>
         </p>
         <a href="myAccount.php">Go to account settings</a></a>
